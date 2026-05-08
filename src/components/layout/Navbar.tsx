@@ -4,13 +4,16 @@ import Link from 'next/link';
 import { useAuthStore } from '@/store/useAuthStore';
 import { Button } from '../ui/Button';
 import { BookOpen, LogOut, Menu, X } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { useRouter, usePathname } from 'next/navigation';
 import { useState } from 'react';
 
 export function Navbar() {
  const { user, logout } = useAuthStore();
  const router = useRouter();
+ const pathname = usePathname();
  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+ const isActive = (path: string) => pathname === path;
 
  const handleLogout = () => {
  logout();
@@ -28,17 +31,32 @@ export function Navbar() {
  </Link>
  
  <div className="hidden sm:flex items-center gap-8">
- <Link href="/centers" className="text-sm font-medium text-slate-600 hover:text-violet-600 transition-colors">
- Centers
+ <Link 
+   href="/centers" 
+   className={`text-sm font-medium transition-colors ${
+     isActive('/centers') ? 'text-violet-600' : 'text-slate-600 hover:text-violet-600'
+   }`}
+ >
+   Centers
  </Link>
- <Link href="/books" className="text-sm font-medium text-slate-600 hover:text-violet-600 transition-colors">
- Books
+ <Link 
+   href="/books" 
+   className={`text-sm font-medium transition-colors ${
+     isActive('/books') ? 'text-violet-600' : 'text-slate-600 hover:text-violet-600'
+   }`}
+ >
+   Books
  </Link>
  
  {user ? (
  <div className="flex items-center gap-6">
- <Link href="/dashboard" className="text-sm font-medium text-slate-600 hover:text-violet-600 transition-colors">
- Dashboard
+ <Link 
+   href="/dashboard" 
+   className={`text-sm font-medium transition-colors ${
+     isActive('/dashboard') ? 'text-violet-600' : 'text-slate-600 hover:text-violet-600'
+   }`}
+ >
+   Dashboard
  </Link>
  <div className="h-6 w-px bg-slate-200"></div>
  <div className="flex items-center gap-3">
@@ -76,16 +94,31 @@ export function Navbar() {
  {/* Mobile Menu */}
  {isMenuOpen && (
  <div className="sm:hidden border-t border-slate-200 bg-white p-4 space-y-3">
- <Link href="/centers" className="block text-sm font-medium text-slate-600 hover:text-emerald-600 py-2">
- Centers
+ <Link 
+   href="/centers" 
+   className={`block text-sm font-medium py-2 transition-colors ${
+     isActive('/centers') ? 'text-violet-600' : 'text-slate-600 hover:text-violet-600'
+   }`}
+ >
+   Centers
  </Link>
- <Link href="/books" className="block text-sm font-medium text-slate-600 hover:text-emerald-600 py-2">
- Books
+ <Link 
+   href="/books" 
+   className={`block text-sm font-medium py-2 transition-colors ${
+     isActive('/books') ? 'text-violet-600' : 'text-slate-600 hover:text-violet-600'
+   }`}
+ >
+   Books
  </Link>
  {user ? (
  <>
- <Link href="/dashboard" className="block text-sm font-medium text-slate-600 hover:text-emerald-600 py-2">
- Dashboard
+ <Link 
+   href="/dashboard" 
+   className={`block text-sm font-medium py-2 transition-colors ${
+     isActive('/dashboard') ? 'text-violet-600' : 'text-slate-600 hover:text-violet-600'
+   }`}
+ >
+   Dashboard
  </Link>
  <div className="pt-2 border-t border-slate-200">
  <div className="flex items-center gap-2 py-2 mb-2">
