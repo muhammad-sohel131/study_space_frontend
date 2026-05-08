@@ -1,14 +1,18 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import { graphqlClient } from '@/lib/graphqlClient';
 import { GET_BOOKS } from '@/graphql/queries';
 import { BUY_BOOK, BORROW_BOOK } from '@/graphql/mutations';
-import { Card } from '@/components/ui/Card';
+import { BookCard } from '@/components/cards/BookCard';
+import { EmptyState } from '@/components/ui/EmptyState';
+import { Input } from '@/components/ui/Input';
 import { Button } from '@/components/ui/Button';
-import { Book, ShoppingCart, Clock } from 'lucide-react';
+import { Tabs } from '@/components/ui/Tabs';
+import { CardSkeleton } from '@/components/ui/Skeleton';
+import { Search, SlidersHorizontal } from 'lucide-react';
 import { useAuthStore } from '@/store/useAuthStore';
 import { useRouter } from 'next/navigation';
 
@@ -19,28 +23,37 @@ interface BookItem {
   type: string;
   price: number;
   stock: number;
+  rating?: number;
+  reviews?: number;
 }
 
 export default function BooksPage() {
   const { user } = useAuthStore();
   const router = useRouter();
-  const [filter, setFilter] = useState<'ALL' | 'BUY' | 'BORROW'>('ALL');
+  const [searchQuery, setSearchQuery] = useState('');
+  const [filter, setFilter] = useState<'ALL' | 'SELL' | 'BORROW'>('ALL');
+  const [favorites, setFavorites] = useState<Set<string>>(new Set());
 
   const { data: books, isLoading } = useQuery({
     queryKey: ['books'],
     queryFn: async () => {
       const response = await graphqlClient.request<{ books: BookItem[] }>(GET_BOOKS);
-      return response.books;
+      return response.books || [];
     },
   });
 
   const buyMutation = useMutation({
     mutationFn: async (bookId: string) => {
+      if (!user) {
+        toast.error('Please login to buy books');
+        router.push('/login');
+        return;
+      }
       const variables = { createOrderInput: { bookId, quantity: 1 } };
       return graphqlClient.request(BUY_BOOK, variables);
     },
     onSuccess: () => {
-      toast.success('Book purchased successfully!');
+      toast.success('Book added to cart!');
     },
     onError: (error: any) => {
       toast.error(error.response?.errors?.[0]?.message || 'Failed to purchase book');
@@ -71,95 +84,109 @@ export default function BooksPage() {
     else borrowMutation.mutate(bookId);
   };
 
-  const filteredBooks = books?.filter(book => {
-    if (filter === 'ALL') return true;
-    return book.type.toUpperCase() === filter;
-  });
+  const filteredBooks = useMemo(() => {
+    const filtered = books?.filter(book => {
+      if (filter === 'ALL') return true;
+      return book.type.toUpperCase() === filter;
+    }) || [];
+
+    return filtered.filter(
+      (book) =>
+        book.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        book.author.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  }, [books, filter, searchQuery]);
+
+  const toggleFavorite = (bookId: string) => {
+    const newFavorites = new Set(favorites);
+    if (newFavorites.has(bookId)) {
+      newFavorites.delete(bookId);
+    } else {
+      newFavorites.add(bookId);
+    }
+    setFavorites(newFavorites);
+  };
 
   return (
     <div className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-12">
-      <div className="mb-10 text-center">
-        <h1 className="text-4xl font-extrabold text-slate-900 tracking-tight sm:text-5xl">Book Store</h1>
-        <p className="mt-4 max-w-2xl text-xl text-slate-500 mx-auto">
+      <div className="mb-10">
+        <h1 className="text-4xl font-bold text-slate-900">Books</h1>
+        <p className="mt-2 text-lg text-slate-600">
           Purchase or borrow resources to aid your study sessions.
         </p>
       </div>
 
-      <div className="flex justify-center gap-4 mb-8">
-        <Button 
-          variant={filter === 'ALL' ? 'primary' : 'secondary'} 
-          onClick={() => setFilter('ALL')}
-        >
-          All Books
-        </Button>
-        <Button 
-          variant={filter === 'BUY' ? 'primary' : 'secondary'} 
-          onClick={() => setFilter('BUY')}
-        >
-          For Sale
-        </Button>
-        <Button 
-          variant={filter === 'BORROW' ? 'primary' : 'secondary'} 
-          onClick={() => setFilter('BORROW')}
-        >
-          For Borrowing
-        </Button>
+      {/* Search and Filter Section */}
+      <div className="space-y-6 mb-8">
+        <div className="flex flex-col sm:flex-row gap-4">
+          <div className="flex-1">
+            <Input
+              placeholder="Search books by title or author..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+            />
+          </div>
+          <Button variant="secondary" size="md" className="sm:w-auto">
+            <SlidersHorizontal size={18} />
+            Filters
+          </Button>
+        </div>
+
+        {/* Type Filter Tabs */}
+        <div className="flex gap-2 overflow-x-auto">
+          {[
+            { label: 'All Books', value: 'ALL' as const },
+            { label: 'For Sale', value: 'SELL' as const },
+            { label: 'For Borrowing', value: 'BORROW' as const },
+          ].map((tab) => (
+            <Button
+              key={tab.value}
+              variant={filter === tab.value ? 'primary' : 'secondary'}
+              size="sm"
+              onClick={() => setFilter(tab.value)}
+            >
+              {tab.label}
+            </Button>
+          ))}
+        </div>
       </div>
 
+      {/* Books Grid */}
       {isLoading ? (
-        <div className="flex justify-center p-8">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {Array.from({ length: 6 }).map((_, i) => (
+            <CardSkeleton key={i} />
+          ))}
         </div>
+      ) : filteredBooks.length === 0 ? (
+        <EmptyState
+          icon="📚"
+          title="No books found"
+          description="Try adjusting your search criteria or filters."
+          actionLabel="Clear Search"
+          onAction={() => setSearchQuery('')}
+        />
       ) : (
-        <div className="grid gap-8 md:grid-cols-3 lg:grid-cols-4">
-          {filteredBooks?.map((book) => {
-            const isBuyType = book.type.toUpperCase() === 'BUY';
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredBooks.map((book) => {
+            const isBuyType = book.type.toUpperCase() === 'SELL';
             return (
-              <Card key={book.id} className="flex flex-col h-full hover:shadow-lg transition-all duration-300 group">
-                <div className="h-48 bg-slate-100 rounded-t-xl -mx-6 -mt-6 mb-6 flex items-center justify-center relative overflow-hidden group-hover:bg-blue-50 transition-colors">
-                  <Book className="w-16 h-16 text-slate-300 group-hover:text-blue-300 transition-colors" />
-                  <div className="absolute top-3 right-3">
-                    <span className={`px-2 py-1 text-xs font-bold rounded-full uppercase ${
-                      isBuyType ? 'bg-green-100 text-green-700' : 'bg-purple-100 text-purple-700'
-                    }`}>
-                      {book.type}
-                    </span>
-                  </div>
-                </div>
-                
-                <div className="flex-1 flex flex-col">
-                  <h3 className="text-lg font-bold text-slate-900 line-clamp-2 mb-1">{book.title}</h3>
-                  <p className="text-sm text-slate-500 mb-4">{book.author}</p>
-                  
-                  <div className="mt-auto space-y-4">
-                    <div className="flex justify-between items-end">
-                      <div className="text-2xl font-black text-slate-900">${book.price.toFixed(2)}</div>
-                      <div className="text-sm text-slate-500 font-medium">Stock: {book.stock}</div>
-                    </div>
-                    
-                    <Button 
-                      className="w-full" 
-                      variant={isBuyType ? 'primary' : 'secondary'}
-                      onClick={() => handleAction(isBuyType ? 'BUY' : 'BORROW', book.id)}
-                      disabled={book.stock <= 0 || buyMutation.isPending || borrowMutation.isPending}
-                    >
-                      {isBuyType ? (
-                        <><ShoppingCart className="w-4 h-4 mr-2" /> Buy Now</>
-                      ) : (
-                        <><Clock className="w-4 h-4 mr-2" /> Borrow Book</>
-                      )}
-                    </Button>
-                  </div>
-                </div>
-              </Card>
+              <BookCard
+                key={book.id}
+                id={book.id}
+                title={book.title}
+                author={book.author}
+                price={book.price}
+                rating={book.rating || 0}
+                reviews={book.reviews || 0}
+                isAvailable={book.stock > 0}
+                isFavorite={favorites.has(book.id)}
+                onBorrow={() => handleAction('BORROW', book.id)}
+                onBuy={() => handleAction('BUY', book.id)}
+                onToggleFavorite={() => toggleFavorite(book.id)}
+              />
             );
           })}
-          
-          {filteredBooks?.length === 0 && (
-            <div className="col-span-full text-center py-12 text-slate-500">
-              No books found in this category.
-            </div>
-          )}
         </div>
       )}
     </div>
