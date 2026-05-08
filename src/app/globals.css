@@ -1,14 +1,15 @@
 @import "tailwindcss";
 
 :root {
+  color-scheme: light;
   --background: #f8fafc;
   --foreground: #1e293b;
   
-  /* Indigo + Slate Premium SaaS Design System */
-  --primary: #4f46e5;
-  --primary-dark: #4338ca;
-  --primary-light: #6366f1;
-  --primary-50: #eef2ff;
+  /* Violet + Slate Premium SaaS Design System */
+  --primary: #7c3aed; /* violet-600 */
+  --primary-dark: #6d28d9; /* violet-700 */
+  --primary-light: #8b5cf6; /* violet-500 */
+  --primary-50: #f5f3ff; /* violet-50 */
   
   --slate-50: #f8fafc;
   --slate-100: #f1f5f9;
@@ -31,16 +32,9 @@
   --color-foreground: var(--foreground);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0f172a;
-    --foreground: #f1f5f9;
-  }
-}
-
 /* Base Styles */
 * {
-  @apply transition-all duration-200;
+  @apply transition-colors duration-200;
 }
 
 html {
@@ -100,3 +94,4 @@ h4 {
 ::-webkit-scrollbar-thumb:hover {
   background: var(--slate-400);
 }
+
