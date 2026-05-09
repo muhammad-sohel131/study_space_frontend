@@ -13,71 +13,77 @@ import { Input } from '@/components/ui/Input';
 import { Card } from '@/components/ui/Card';
 
 export default function LoginPage() {
- const router = useRouter();
- const { setAuth } = useAuthStore();
- const [email, setEmail] = useState('');
- const [password, setPassword] = useState('');
+    const router = useRouter();
+    const { setAuth } = useAuthStore();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
 
- const loginMutation = useMutation({
- mutationFn: async () => {
- const variables = { loginInput: { email, password } };
- return graphqlClient.request<{ login: { accessToken: string; user: any } }>(LOGIN_MUTATION, variables);
- },
- onSuccess: (data) => {
- setAuth(data.login.accessToken, data.login.user);
- toast.success('Logged in successfully!');
- router.push('/dashboard');
- },
- onError: (error: any) => {
- toast.error(error.response?.errors?.[0]?.message || 'Failed to login');
- },
- });
+    const loginMutation = useMutation({
+        mutationFn: async () => {
+            const variables = { loginInput: { email, password } };
+            return graphqlClient.request<{ login: { accessToken: string; user: any } }>(LOGIN_MUTATION, variables);
+        },
+        onSuccess: (data) => {
+            console.log(data);
+            setAuth(data.login.accessToken, data.login.user);
+            toast.success('Logged in successfully!');
+            if (data.login.user.role === 'ADMIN') {
+                router.push('/admin/dashboard');
+            } else {
+                router.push('/dashboard');
+            }
+        },
+        onError: (error: any) => {
+            console.log(error.response);
+            toast.error(error.response?.errors?.[0]?.message || 'Failed to login');
+        },
+    });
 
- const handleSubmit = (e: React.FormEvent) => {
- e.preventDefault();
- loginMutation.mutate();
- };
+    const handleSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+        loginMutation.mutate();
+    };
 
- return (
- <div className="flex-1 flex flex-col justify-center py-12 sm:px-6 lg:px-8 bg-slate-50">
- <div className="sm:mx-auto sm:w-full sm:max-w-md">
- <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-slate-900">
- Sign in to your account
- </h2>
- <p className="mt-2 text-center text-sm text-slate-600">
- Or{' '}
- <Link href="/register" className="font-medium text-violet-600 hover:text-violet-500">
- create a new account
- </Link>
- </p>
- </div>
+    return (
+        <div className="flex-1 flex flex-col justify-center py-12 sm:px-6 lg:px-8 bg-slate-50">
+            <div className="sm:mx-auto sm:w-full sm:max-w-md">
+                <h2 className="mt-6 text-center text-3xl font-bold tracking-tight text-slate-900">
+                    Sign in to your account
+                </h2>
+                <p className="mt-2 text-center text-sm text-slate-600">
+                    Or{' '}
+                    <Link href="/register" className="font-medium text-violet-600 hover:text-violet-500">
+                        create a new account
+                    </Link>
+                </p>
+            </div>
 
- <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
- <Card className="py-8 px-4 sm:px-10 shadow-xl shadow-slate-200/50">
- <form className="space-y-6" onSubmit={handleSubmit}>
- <Input
- label="Email address"
- type="email"
- required
- value={email}
- onChange={(e) => setEmail(e.target.value)}
- />
- <Input
- label="Password"
- type="password"
- required
- value={password}
- onChange={(e) => setPassword(e.target.value)}
- />
+            <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+                <Card className="py-8 px-4 sm:px-10 shadow-xl shadow-slate-200/50">
+                    <form className="space-y-6" onSubmit={handleSubmit}>
+                        <Input
+                            label="Email address"
+                            type="email"
+                            required
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                        />
+                        <Input
+                            label="Password"
+                            type="password"
+                            required
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                        />
 
- <div>
- <Button type="submit" className="w-full" isLoading={loginMutation.isPending}>
- Sign in
- </Button>
- </div>
- </form>
- </Card>
- </div>
- </div>
- );
+                        <div>
+                            <Button type="submit" className="w-full" isLoading={loginMutation.isPending}>
+                                Sign in
+                            </Button>
+                        </div>
+                    </form>
+                </Card>
+            </div>
+        </div>
+    );
 }

@@ -1,8 +1,15 @@
+'use client';
+
 import Link from 'next/link';
 import { BookOpen, MapPin, Mail, Phone } from 'lucide-react';
+import { usePathname } from 'next/navigation';
 
 export function Footer() {
- const currentYear = new Date().getFullYear();
+  const pathname = usePathname();
+  const isDashboard = pathname?.startsWith('/dashboard') || pathname?.startsWith('/admin');
+  if (isDashboard) return null;
+
+  const currentYear = new Date().getFullYear();
 
  return (
  <footer className="bg-white border-t border-slate-200 text-slate-700">
