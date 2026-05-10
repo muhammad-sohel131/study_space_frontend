@@ -36,6 +36,12 @@ export const GET_AVAILABLE_SEATS = gql`
       pricePerHour
       pricePerMonth
       isActive
+      x
+      y
+      bookings {
+        startTime
+        endTime
+      }
     }
   }
 `;
@@ -50,6 +56,12 @@ export const GET_SEATS_BY_CENTER = gql`
       pricePerHour
       pricePerMonth
       isActive
+      x
+      y
+      bookings {
+        startTime
+        endTime
+      }
     }
   }
 `;

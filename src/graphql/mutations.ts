@@ -118,6 +118,28 @@ export const CREATE_SEAT = gql`
       type
       pricePerHour
       pricePerMonth
+      x
+      y
     }
+  }
+`;
+
+export const UPDATE_SEAT = gql`
+  mutation UpdateSeat($updateSeatInput: UpdateSeatInput!) {
+    updateSeat(updateSeatInput: $updateSeatInput) {
+      id
+      seatNumber
+      type
+      pricePerHour
+      pricePerMonth
+      x
+      y
+    }
+  }
+`;
+
+export const DELETE_SEAT = gql`
+  mutation DeleteSeat($id: String!) {
+    deleteSeat(id: $id)
   }
 `;
