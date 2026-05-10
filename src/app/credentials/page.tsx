@@ -20,8 +20,7 @@ export default function CredentialsPage() {
 
   return (
     <div className="min-h-screen bg-slate-50 flex flex-col">
-      <Navbar />
-      
+
       <main className="flex-1 flex items-center justify-center p-4 py-20">
         <div className="max-w-md w-full space-y-8">
           <div className="text-center space-y-2">
@@ -42,7 +41,7 @@ export default function CredentialsPage() {
                   <div className="relative group">
                     <div className="w-full h-12 px-4 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-between font-bold text-slate-700">
                       {credentials.email}
-                      <button 
+                      <button
                         onClick={() => copyToClipboard(credentials.email, 'Email')}
                         className="p-2 hover:bg-white rounded-lg transition-colors text-slate-400 hover:text-indigo-600"
                       >
@@ -59,7 +58,7 @@ export default function CredentialsPage() {
                   <div className="relative group">
                     <div className="w-full h-12 px-4 rounded-xl bg-slate-50 border border-slate-100 flex items-center justify-between font-bold text-slate-700">
                       {credentials.password}
-                      <button 
+                      <button
                         onClick={() => copyToClipboard(credentials.password, 'Password')}
                         className="p-2 hover:bg-white rounded-lg transition-colors text-slate-400 hover:text-indigo-600"
                       >
@@ -77,7 +76,7 @@ export default function CredentialsPage() {
                 </p>
               </div>
 
-              <Button 
+              <Button
                 onClick={() => window.open('/login', '_blank')}
                 className="w-full h-14 rounded-2xl bg-indigo-600 shadow-xl shadow-indigo-100 font-black uppercase tracking-widest text-[11px] group"
               >
@@ -93,7 +92,6 @@ export default function CredentialsPage() {
         </div>
       </main>
 
-      <Footer />
     </div>
   );
 }
