@@ -401,7 +401,7 @@ export default function BookSeatPage() {
                           const isPremium = seat.type === 'premium';
 
                           // Find active bookings for today
-                          const todayBookings = seat.bookings?.filter(b => {
+                          const todayBookings = seat.bookings?.filter((b: BookingInfo) => {
                             const bStart = new Date(b.startTime);
                             const now = new Date();
                             return bStart.getDate() === now.getDate() && bStart.getMonth() === now.getMonth();
@@ -457,7 +457,7 @@ export default function BookSeatPage() {
                                         <Timer className="h-3 w-3" />
                                         Today's Schedule
                                       </div>
-                                      {todayBookings.map((b, idx) => (
+                                      {todayBookings.map((b: BookingInfo, idx: number) => (
                                         <div key={idx} className="flex items-center justify-between gap-4 bg-white/5 px-2 py-1 rounded-lg">
                                           <span className="text-slate-300">{format(new Date(b.startTime), 'hh:mm a')}</span>
                                           <span className="text-slate-500 text-[8px]">TO</span>

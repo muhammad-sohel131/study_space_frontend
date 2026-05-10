@@ -132,8 +132,8 @@ export default function ManageCenters() {
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {isLoading ? (
-          [1, 2, 3].map(i => <Card key={i} className="h-64 animate-pulse bg-slate-100" />)
-        ) : centers?.map((center) => (
+          [1, 2, 3].map(i => <Card key={i} className="h-64 animate-pulse bg-slate-100"><div /></Card>)
+        ) : centers?.map((center: any) => (
           <Card key={center.id} className="p-0 border-slate-200 hover:border-indigo-200 transition-all group shadow-xl shadow-slate-200/50 overflow-hidden">
             {/* Cover Image */}
             <div className="h-32 w-full bg-slate-100 relative">
