@@ -6,7 +6,7 @@ export const uploadToCloudinary = async (file: File): Promise<string> => {
   formData.append('file', file);
 
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_CLOUDINARY_API_URL || 'http://localhost:5000'}/cloudinary/upload`,
+    `${process.env.NEXT_PUBLIC_CLOUDINARY_API_URL}`,
     {
       method: 'POST',
       headers: {
