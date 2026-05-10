@@ -48,3 +48,9 @@ A premium, high-performance user interface for the StudySpace platform, built wi
 - **Modern Aesthetics**: Deep shadows, vibrant gradients, and subtle micro-animations.
 - **Intuitive UX**: Predictive UI elements, helpful empty states, and clear calls to action.
 - **Performance First**: Optimized image loading and minimal client-side JavaScript.
+
+## 🔐 Demo Credentials
+
+To test the full functionality of the platform, including branch and seat management:
+- **Admin Email**: `admin@gmail.com`
+- **Admin Password**: `123456`

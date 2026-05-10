@@ -48,6 +48,14 @@ export function Navbar() {
           >
             Books
           </Link>
+          <Link
+            href="/credentials"
+            target="_blank"
+            className={`text-sm font-medium transition-colors ${isActive('/credentials') ? 'text-violet-600' : 'text-slate-600 hover:text-violet-600'
+              }`}
+          >
+            Access
+          </Link>
 
           {user ? (
             <div className="flex items-center gap-6">
