@@ -78,13 +78,19 @@ export const GET_MY_BOOKINGS = gql`
       totalPrice
       paymentStatus
       status
+      createdAt
+      center {
+        id
+        name
+        location
+        openingTime
+        closingTime
+      }
       seat {
         seatNumber
         type
-      }
-      center {
-        name
-        location
+        pricePerHour
+        pricePerMonth
       }
     }
   }

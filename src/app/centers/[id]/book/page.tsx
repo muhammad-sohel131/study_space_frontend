@@ -74,8 +74,8 @@ export default function BookSeatPage() {
 
   const getISOStrings = () => {
     if (bookingType === 'hourly') {
-      const start = new Date(`${date}T${startTimeStr}:00.000Z`).toISOString();
-      const end = new Date(`${date}T${endTimeStr}:00.000Z`).toISOString();
+      const start = new Date(`${date}T${startTimeStr}`).toISOString();
+      const end = new Date(`${date}T${endTimeStr}`).toISOString();
       return { start, end };
     } else {
       const monthDate = parseISO(`${selectedMonth}-01`);

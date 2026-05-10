@@ -143,3 +143,12 @@ export const DELETE_SEAT = gql`
     deleteSeat(id: $id)
   }
 `;
+
+export const CANCEL_BOOKING = gql`
+  mutation CancelBooking($bookingId: String!) {
+    cancelBooking(bookingId: $bookingId) {
+      id
+      status
+    }
+  }
+`;
