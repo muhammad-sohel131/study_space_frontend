@@ -35,6 +35,7 @@ interface Center {
   location: string;
   openingTime: string;
   closingTime: string;
+  coverImage?: string;
 }
 
 export default function BookSeatPage() {
@@ -178,6 +179,14 @@ export default function BookSeatPage() {
     <div className="flex-1 bg-slate-50 min-h-screen pb-20">
       {/* Premium Banner */}
       <div className="relative h-64 w-full bg-slate-900 overflow-hidden">
+        {center?.coverImage && (
+          <img 
+            src={center.coverImage} 
+            alt={center?.name} 
+            className="absolute inset-0 w-full h-full object-cover opacity-60" 
+          />
+        )}
+        <div className="absolute inset-0 bg-gradient-to-r from-slate-900/80 to-slate-900/20 mix-blend-multiply" />
         <div className="absolute inset-0 bg-gradient-to-r from-indigo-600/30 to-purple-600/30 mix-blend-overlay" />
         <div className="relative max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex flex-col justify-center">
           <Link href="/centers" className="flex items-center text-indigo-300 hover:text-white transition-colors mb-4 group">

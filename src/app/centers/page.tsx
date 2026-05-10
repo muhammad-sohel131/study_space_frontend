@@ -16,6 +16,7 @@ interface Center {
   location: string;
   openingTime: string;
   closingTime: string;
+  coverImage?: string;
 }
 
 export default function CentersPage() {
@@ -139,7 +140,11 @@ export default function CentersPage() {
               <Card key={center.id} className="group flex flex-col h-full hover:shadow-2xl transition-all duration-300 border-slate-200 hover:border-violet-200 overflow-hidden">
                 <div className="h-48 bg-slate-100 relative overflow-hidden">
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 to-transparent z-10" />
-                  <MapPin className="w-12 h-12 text-white/20 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0" />
+                  {center.coverImage ? (
+                    <img src={center.coverImage} alt={center.name} className="absolute inset-0 w-full h-full object-cover z-0" />
+                  ) : (
+                    <MapPin className="w-12 h-12 text-white/20 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0" />
+                  )}
                   <div className="absolute bottom-4 left-4 z-20">
                     <span className="px-2 py-1 rounded-md bg-violet-600 text-white text-xs font-bold tracking-wider uppercase">
                       Active

@@ -14,6 +14,7 @@ export const graphqlClient = new GraphQLClient(endpoint, {
         return {
             ...request,
             headers: newHeaders,
-        };
+            cache: 'no-store',
+        } as any;
     },
 });
