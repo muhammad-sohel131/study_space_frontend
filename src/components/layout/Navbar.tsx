@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useAuthStore } from '@/store/useAuthStore';
 import { Button } from '../ui/Button';
-import { BookOpen, LogOut, Menu, X } from 'lucide-react';
+import { BookOpen, LogOut, Menu, X, ShieldCheck } from 'lucide-react';
 import { useRouter, usePathname } from 'next/navigation';
 import { useState } from 'react';
 
@@ -33,6 +33,18 @@ export function Navbar() {
           <span className="text-lg font-bold tracking-tight hidden sm:inline">StudySpace</span>
         </Link>
 
+        <div className="hidden sm:flex items-center gap-4 ml-6 mr-auto">
+          <Link
+            href="/credentials"
+            target="_blank"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-50 border border-amber-200 text-[10px] font-black uppercase tracking-widest text-amber-600 hover:bg-amber-100 transition-all shadow-sm shadow-amber-100 group"
+          >
+            <ShieldCheck className="h-3 w-3 group-hover:rotate-12 transition-transform" />
+            Admin Access
+            <span className="flex h-1.5 w-1.5 rounded-full bg-amber-500 animate-pulse"></span>
+          </Link>
+        </div>
+
         <div className="hidden sm:flex items-center gap-8">
           <Link
             href="/centers"
@@ -47,14 +59,6 @@ export function Navbar() {
               }`}
           >
             Books
-          </Link>
-          <Link
-            href="/credentials"
-            target="_blank"
-            className={`text-sm font-medium transition-colors ${isActive('/credentials') ? 'text-violet-600' : 'text-slate-600 hover:text-violet-600'
-              }`}
-          >
-            Access
           </Link>
 
           {user ? (
