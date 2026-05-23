@@ -54,11 +54,11 @@ export function Navbar() {
             Centers
           </Link>
           <Link
-            href="/books"
-            className={`text-sm font-medium transition-colors ${isActive('/books') ? 'text-violet-600' : 'text-slate-600 hover:text-violet-600'
+            href="/library"
+            className={`text-sm font-medium transition-colors ${isActive('/library') ? 'text-violet-600' : 'text-slate-600 hover:text-violet-600'
               }`}
           >
-            Books
+            Library
           </Link>
 
           {user ? (
@@ -114,11 +114,11 @@ export function Navbar() {
             Centers
           </Link>
           <Link
-            href="/books"
-            className={`block text-sm font-medium py-2 transition-colors ${isActive('/books') ? 'text-violet-600' : 'text-slate-600 hover:text-violet-600'
+            href="/library"
+            className={`block text-sm font-medium py-2 transition-colors ${isActive('/library') ? 'text-violet-600' : 'text-slate-600 hover:text-violet-600'
               }`}
           >
-            Books
+            Library
           </Link>
           {user ? (
             <>

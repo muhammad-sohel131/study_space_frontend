@@ -27,7 +27,7 @@ interface BookItem {
  reviews?: number;
 }
 
-export default function BooksPage() {
+export default function LibraryPage() {
  const { user } = useAuthStore();
  const router = useRouter();
  const [searchQuery, setSearchQuery] = useState('');
@@ -110,11 +110,12 @@ export default function BooksPage() {
  return (
  <div className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-12">
  <div className="mb-10">
- <h1 className="text-4xl font-bold text-slate-900">Books</h1>
+ <h1 className="text-4xl font-bold text-slate-900">Library</h1>
  <p className="mt-2 text-lg text-slate-600">
- Purchase or borrow resources to aid your study sessions.
+ Explore and acquire resources to elevate your study sessions.
  </p>
  </div>
+
 
  {/* Search and Filter Section */}
  <div className="space-y-6 mb-8">

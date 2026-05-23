@@ -59,8 +59,16 @@ export const GET_SEATS_BY_CENTER = gql`
       x
       y
       bookings {
+        id
         startTime
         endTime
+        status
+        paymentStatus
+        createdAt
+        user {
+          name
+          email
+        }
       }
     }
   }
