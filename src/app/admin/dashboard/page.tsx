@@ -21,8 +21,8 @@ export default function AdminDashboard() {
   const { data: bookings, isLoading: isLoadingBookings } = useQuery({
     queryKey: ['allBookings'],
     queryFn: async () => {
-      const response = await graphqlClient.request<{ allBookings: any[] }>(GET_ALL_BOOKINGS);
-      return response.allBookings;
+      const response = await graphqlClient.request<{ allBookings: { data: any[] } }>(GET_ALL_BOOKINGS, { page: 1, limit: 100 });
+      return response.allBookings.data;
     },
   });
 
@@ -37,8 +37,8 @@ export default function AdminDashboard() {
   const { data: centers, isLoading: isLoadingCenters } = useQuery({
     queryKey: ['centers'],
     queryFn: async () => {
-      const response = await graphqlClient.request<{ centers: any[] }>(GET_CENTERS);
-      return response.centers;
+      const response = await graphqlClient.request<{ centers: { data: any[] } }>(GET_CENTERS, { page: 1, limit: 100 });
+      return response.centers.data;
     },
   });
 

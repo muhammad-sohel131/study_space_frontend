@@ -59,21 +59,17 @@ export const BUY_BOOK = gql`
       userId
       bookId
       quantity
-      type
+      totalAmount
+      paymentStatus
       status
     }
   }
 `;
 
-export const BORROW_BOOK = gql`
-  mutation BorrowBook($createOrderInput: CreateOrderInput!) {
-    borrowBook(createOrderInput: $createOrderInput) {
-      id
-      userId
-      bookId
-      quantity
-      type
-      status
+export const INIT_ORDER_PAYMENT = gql`
+  mutation InitOrderPayment($orderId: String!) {
+    initOrderPayment(orderId: $orderId) {
+      paymentUrl
     }
   }
 `;
@@ -150,5 +146,31 @@ export const CANCEL_BOOKING = gql`
       id
       status
     }
+  }
+`;
+
+export const CREATE_BOOK = gql`
+  mutation CreateBook($createBookInput: CreateBookInput!) {
+    createBook(createBookInput: $createBookInput) {
+      id
+      title
+      author
+    }
+  }
+`;
+
+export const UPDATE_BOOK = gql`
+  mutation UpdateBook($updateBookInput: UpdateBookInput!) {
+    updateBook(updateBookInput: $updateBookInput) {
+      id
+      title
+      author
+    }
+  }
+`;
+
+export const DELETE_BOOK = gql`
+  mutation DeleteBook($id: String!) {
+    deleteBook(id: $id)
   }
 `;

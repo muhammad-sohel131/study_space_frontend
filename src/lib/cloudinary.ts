@@ -15,7 +15,7 @@ export const uploadToCloudinary = async (file: File): Promise<string> => {
       body: formData,
     }
   );
-
+  console.log('Cloudinary response:', response);
   if (!response.ok) {
     throw new Error('Failed to upload image to backend');
   }

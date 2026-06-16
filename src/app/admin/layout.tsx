@@ -13,7 +13,8 @@ import {
   LogOut,
   ChevronRight,
   Menu,
-  X
+  X,
+  Book
 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -41,6 +42,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { name: 'Centers', href: '/admin/centers', icon: MapPin },
     { name: 'Seats', href: '/admin/seats', icon: Armchair },
     { name: 'Bookings', href: '/admin/bookings', icon: CalendarCheck },
+    { name: 'Books', href: '/admin/books', icon: Book },
     { name: 'Payments', href: '/admin/payments', icon: CreditCard },
   ];
 

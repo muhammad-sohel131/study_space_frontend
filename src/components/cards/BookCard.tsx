@@ -1,5 +1,5 @@
 import React from 'react';
-import { Star, ShoppingCart, Heart } from 'lucide-react';
+import { Star, Eye, Heart } from 'lucide-react';
 import { Button } from '../ui/Button';
 import { Badge } from '../ui/Badge';
 
@@ -8,12 +8,13 @@ interface BookCardProps {
  title: string;
  author: string;
  price: number;
+ productType: string;
  rating?: number;
  reviews?: number;
  image?: string;
  isAvailable?: boolean;
  isFavorite?: boolean;
- onBorrow?: () => void;
+ previewPdfUrl?: string;
  onBuy?: () => void;
  onToggleFavorite?: () => void;
 }
@@ -23,17 +24,18 @@ export function BookCard({
  title,
  author,
  price,
+ productType,
  rating = 0,
  reviews = 0,
  image,
  isAvailable = true,
  isFavorite = false,
- onBorrow,
+ previewPdfUrl,
  onBuy,
  onToggleFavorite,
 }: BookCardProps) {
  return (
- <div className="group bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg transition-all duration-300 hover:scale-105 flex flex-col">
+ <div className="group bg-white rounded-2xl overflow-hidden shadow-sm border border-slate-100 hover:shadow-lg transition-all duration-300 hover:scale-105 flex flex-col relative">
  {/* Book Cover */}
  <div className="relative h-48 bg-gradient-to-br from-violet-100 to-violet-50 flex items-center justify-center overflow-hidden">
  {image ? (
@@ -55,6 +57,10 @@ export function BookCard({
  className={isFavorite ? 'fill-red-500 text-red-500' : 'text-slate-400'}
  />
  </button>
+
+ <Badge variant="secondary" className="absolute top-3 left-3 uppercase tracking-widest text-[10px] bg-white/90 backdrop-blur">
+ {productType === 'pdf' ? 'E-Book' : 'Physical'}
+ </Badge>
 
  {/* Available Badge */}
  {!isAvailable && (
@@ -92,22 +98,25 @@ export function BookCard({
 
  {/* Actions */}
  <div className="flex gap-2 mt-auto">
+ {previewPdfUrl && (
  <Button
  variant="outline"
  size="sm"
- onClick={onBorrow}
- disabled={!isAvailable}
- className="flex-1"
+ onClick={() => window.open(previewPdfUrl, '_blank')}
+ className="flex-1 text-slate-600"
  >
- Borrow
+ <Eye size={16} className="mr-2" />
+ Preview
  </Button>
+ )}
  <Button
  variant="primary"
  size="sm"
  onClick={onBuy}
+ disabled={!isAvailable}
  className="flex-1"
  >
- Buy
+ Buy Now
  </Button>
  </div>
  </div>

@@ -38,8 +38,8 @@ export default function ManageSeats() {
   const { data: centers } = useQuery({
     queryKey: ['centers'],
     queryFn: async () => {
-      const response = await graphqlClient.request<{ centers: any[] }>(GET_CENTERS);
-      return response.centers;
+      const response = await graphqlClient.request<{ centers: { data: any[] } }>(GET_CENTERS, { page: 1, limit: 100 });
+      return response.centers.data;
     },
   });
 

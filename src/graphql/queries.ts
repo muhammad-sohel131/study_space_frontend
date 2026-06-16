@@ -1,14 +1,18 @@
 import { gql } from 'graphql-request';
 
 export const GET_CENTERS = gql`
-  query GetCenters {
-    centers {
-      id
-      name
-      location
-      openingTime
-      closingTime
-      coverImage
+  query GetCenters($page: Int, $limit: Int) {
+    centers(page: $page, limit: $limit) {
+      data {
+        id
+        name
+        location
+        openingTime
+        closingTime
+        coverImage
+      }
+      totalCount
+      totalPages
     }
   }
 `;
@@ -75,55 +79,63 @@ export const GET_SEATS_BY_CENTER = gql`
 `;
 
 export const GET_MY_BOOKINGS = gql`
-  query GetMyBookings {
-    myBookings {
-      id
-      centerId
-      seatId
-      startTime
-      endTime
-      bookingType
-      totalPrice
-      paymentStatus
-      status
-      createdAt
-      center {
+  query GetMyBookings($page: Int, $limit: Int) {
+    myBookings(page: $page, limit: $limit) {
+      data {
         id
-        name
-        location
-        openingTime
-        closingTime
+        centerId
+        seatId
+        startTime
+        endTime
+        bookingType
+        totalPrice
+        paymentStatus
+        status
+        createdAt
+        center {
+          id
+          name
+          location
+          openingTime
+          closingTime
+        }
+        seat {
+          seatNumber
+          type
+          pricePerHour
+          pricePerMonth
+        }
       }
-      seat {
-        seatNumber
-        type
-        pricePerHour
-        pricePerMonth
-      }
+      totalCount
+      totalPages
     }
   }
 `;
 
 export const GET_ALL_BOOKINGS = gql`
-  query GetAllBookings {
-    allBookings {
-      id
-      centerId
-      seatId
-      startTime
-      endTime
-      bookingType
-      totalPrice
-      paymentStatus
-      status
-      seat {
-        seatNumber
-        type
+  query GetAllBookings($page: Int, $limit: Int) {
+    allBookings(page: $page, limit: $limit) {
+      data {
+        id
+        centerId
+        seatId
+        startTime
+        endTime
+        bookingType
+        totalPrice
+        paymentStatus
+        status
+        seat {
+          seatNumber
+          type
+        }
+        center {
+          name
+          location
+        }
       }
-      center {
-        name
-        location
-      }
+      totalCount
+      totalPages
     }
   }
 `;
@@ -143,15 +155,43 @@ export const GET_ALL_PAYMENTS = gql`
 `;
 
 export const GET_BOOKS = gql`
-  query GetBooks($centerId: String) {
-    books(centerId: $centerId) {
+  query GetBooks($centerId: String, $page: Int, $limit: Int) {
+    books(centerId: $centerId, page: $page, limit: $limit) {
+      data {
+        id
+        centerId
+        title
+        author
+        productType
+        price
+        stock
+        coverImageUrl
+        previewPdfUrl
+        fullPdfUrl
+      }
+      totalCount
+      totalPages
+    }
+  }
+`;
+
+export const GET_MY_ORDERS = gql`
+  query GetMyOrders {
+    myOrders {
       id
-      centerId
-      title
-      author
-      type
-      price
-      stock
+      bookId
+      quantity
+      totalAmount
+      paymentStatus
+      status
+      book {
+        title
+        author
+        productType
+        coverImageUrl
+        previewPdfUrl
+        fullPdfUrl
+      }
     }
   }
 `;

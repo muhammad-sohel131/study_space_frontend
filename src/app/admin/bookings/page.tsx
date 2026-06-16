@@ -1,5 +1,6 @@
 'use client';
 
+import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { format, parseISO } from 'date-fns';
 import { graphqlClient } from '@/lib/graphqlClient';
@@ -8,15 +9,22 @@ import { Card } from '@/components/ui/Card';
 import { CalendarDays, Clock, MapPin, Armchair, User } from 'lucide-react';
 import { Badge } from '@/components/ui/Badge';
 import { Skeleton } from '@/components/ui/Skeleton';
+import { Pagination } from '@/components/ui/Pagination';
 
 export default function AllBookings() {
-  const { data: bookings, isLoading } = useQuery({
-    queryKey: ['allBookings'],
+  const [page, setPage] = useState(1);
+  const limit = 10;
+
+  const { data: bookingsData, isLoading } = useQuery({
+    queryKey: ['allBookings', page],
     queryFn: async () => {
-      const response = await graphqlClient.request<{ allBookings: any[] }>(GET_ALL_BOOKINGS);
+      const response = await graphqlClient.request<{ allBookings: { data: any[]; totalPages: number } }>(GET_ALL_BOOKINGS, { page, limit });
       return response.allBookings;
     },
   });
+
+  const bookings = bookingsData?.data || [];
+  const totalPages = bookingsData?.totalPages || 1;
 
   return (
     <div className="space-y-8">
@@ -97,6 +105,12 @@ export default function AllBookings() {
           </table>
         </div>
       </div>
+
+      <Pagination 
+        currentPage={page} 
+        totalPages={totalPages} 
+        onPageChange={setPage} 
+      />
     </div>
   );
 }

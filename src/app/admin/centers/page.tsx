@@ -12,9 +12,12 @@ import { Modal } from '@/components/ui/Modal';
 import { Plus, MapPin, Clock, MoreVertical, Edit2, Trash2, Image as ImageIcon, Loader2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { uploadToCloudinary } from '@/lib/cloudinary';
+import { Pagination } from '@/components/ui/Pagination';
 
 export default function ManageCenters() {
   const queryClient = useQueryClient();
+  const [page, setPage] = useState(1);
+  const limit = 10;
   const [isModalOpen, setModalOpen] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [isUploading, setIsUploading] = useState(false);
@@ -26,13 +29,16 @@ export default function ManageCenters() {
     coverImage: '',
   });
 
-  const { data: centers, isLoading } = useQuery({
-    queryKey: ['centers'],
+  const { data: centersData, isLoading } = useQuery({
+    queryKey: ['centers', page],
     queryFn: async () => {
-      const response = await graphqlClient.request<{ centers: any[] }>(GET_CENTERS);
+      const response = await graphqlClient.request<{ centers: { data: any[]; totalPages: number } }>(GET_CENTERS, { page, limit });
       return response.centers;
     },
   });
+
+  const centers = centersData?.data || [];
+  const totalPages = centersData?.totalPages || 1;
 
   const createMutation = useMutation({
     mutationFn: async (input: any) => {
@@ -185,6 +191,12 @@ export default function ManageCenters() {
           </Card>
         ))}
       </div>
+
+      <Pagination 
+        currentPage={page} 
+        totalPages={totalPages} 
+        onPageChange={setPage} 
+      />
 
       <Modal
         isOpen={isModalOpen}

@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/Button';
 import { MapPin, Clock, Search, SlidersHorizontal } from 'lucide-react';
 import { useState, useMemo } from 'react';
 import Image from 'next/image';
+import { Pagination } from '@/components/ui/Pagination';
 
 interface Center {
   id: string;
@@ -24,13 +25,19 @@ export default function CentersPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedLocation, setSelectedLocation] = useState('All Locations');
 
-  const { data, isLoading, error } = useQuery({
-    queryKey: ['centers'],
+  const [page, setPage] = useState(1);
+  const limit = 10;
+
+  const { data: centersData, isLoading, error } = useQuery({
+    queryKey: ['centers', page],
     queryFn: async () => {
-      const response = await graphqlClient.request<{ centers: Center[] }>(GET_CENTERS);
+      const response = await graphqlClient.request<{ centers: { data: Center[]; totalPages: number } }>(GET_CENTERS, { page, limit });
       return response.centers;
     },
   });
+
+  const data = centersData?.data || [];
+  const totalPages = centersData?.totalPages || 1;
 
   const locations = useMemo(() => {
     if (!data) return ['All Locations'];
@@ -178,12 +185,18 @@ export default function CentersPage() {
             ))}
           </div>
         ) : (
-          <div className="text-center py-20 bg-slate-50 rounded-3xl border-2 border-dashed border-slate-200">
+          <div className="text-center py-20 bg-slate-50 rounded-3xl border-2 border-dashed border-slate-200 mb-20">
             <Search className="h-12 w-12 text-slate-300 mx-auto mb-4" />
             <h3 className="text-xl font-bold text-slate-900 mb-2">No centers found</h3>
             <p className="text-slate-500">Try adjusting your search or filters to find what you're looking for.</p>
           </div>
         )}
+
+        <Pagination 
+          currentPage={page} 
+          totalPages={totalPages} 
+          onPageChange={setPage} 
+        />
       </div>
     </div>
   );
