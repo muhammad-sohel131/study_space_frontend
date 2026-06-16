@@ -284,37 +284,38 @@ export default function DashboardPage() {
         <div className="grid gap-6 md:grid-cols-3 lg:grid-cols-4">
           {[1, 2, 3].map(i => <Skeleton key={i} className="h-64 w-full rounded-2xl" />)}
         </div>
-      ) : orders?.filter(o => o.paymentStatus === 'paid').length === 0 ? (
+      ) : (orders?.filter(o => o.paymentStatus === 'paid').flatMap(o => o.items || []).length === 0) ? (
         <div className="text-center py-12 text-slate-500">You haven't purchased any books yet.</div>
       ) : (
         <div className="grid gap-6 md:grid-cols-3 lg:grid-cols-4">
-          {orders?.filter(o => o.paymentStatus === 'paid').map((order) => (
-            <Card key={order.id} className="p-0 border-slate-200 hover:shadow-xl overflow-hidden group transition-all">
+          {orders?.filter(o => o.paymentStatus === 'paid').flatMap(o => o.items || []).map((item, index) => (
+            <Card key={`${item.bookId}-${index}`} className="p-0 border-slate-200 hover:shadow-xl overflow-hidden group transition-all">
               <div className="h-48 w-full bg-slate-100 relative">
-                {order.book?.coverImageUrl ? (
-                  <img src={order.book.coverImageUrl} className="w-full h-full object-cover" />
+                {item.book?.coverImageUrl ? (
+                  <img src={item.book.coverImageUrl} className="w-full h-full object-cover" />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center text-slate-300">
                     <BookIcon className="h-10 w-10" />
                   </div>
                 )}
                 <Badge variant="secondary" className="absolute top-3 left-3 uppercase tracking-widest text-[10px] bg-white/90 backdrop-blur">
-                  {order.book?.productType === 'pdf' ? 'E-Book' : 'Physical'}
+                  {item.book?.productType === 'pdf' ? 'E-Book' : 'Physical'}
                 </Badge>
               </div>
               <div className="p-4">
-                <h3 className="font-bold text-slate-900 text-lg line-clamp-2">{order.book?.title}</h3>
-                <p className="text-sm text-slate-600 mb-4">{order.book?.author}</p>
-                {order.book?.productType === 'pdf' && order.book?.fullPdfUrl && (
+                <h3 className="font-bold text-slate-900 text-lg line-clamp-2">{item.book?.title}</h3>
+                <p className="text-sm text-slate-600 mb-4">{item.book?.author}</p>
+                <p className="text-sm text-slate-500 mb-4">Quantity: {item.quantity}</p>
+                {item.book?.productType === 'pdf' && item.book?.fullPdfUrl && (
                   <Button 
                     variant="primary" 
                     className="w-full"
-                    onClick={() => window.open(order.book.fullPdfUrl, '_blank')}
+                    onClick={() => window.open(item.book!.fullPdfUrl, '_blank')}
                   >
                     <Download className="h-4 w-4 mr-2" /> Read Book
                   </Button>
                 )}
-                {order.book?.productType === 'physical' && (
+                {item.book?.productType === 'physical' && (
                   <div className="text-sm text-slate-500 bg-slate-50 p-2 rounded text-center font-medium">
                     Collect from Center
                   </div>

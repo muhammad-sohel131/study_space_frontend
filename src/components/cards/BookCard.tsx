@@ -15,7 +15,7 @@ interface BookCardProps {
  isAvailable?: boolean;
  isFavorite?: boolean;
  previewPdfUrl?: string;
- onBuy?: () => void;
+ onAddToCart?: () => void;
  onToggleFavorite?: () => void;
 }
 
@@ -31,7 +31,7 @@ export function BookCard({
  isAvailable = true,
  isFavorite = false,
  previewPdfUrl,
- onBuy,
+ onAddToCart,
  onToggleFavorite,
 }: BookCardProps) {
  return (
@@ -112,11 +112,11 @@ export function BookCard({
  <Button
  variant="primary"
  size="sm"
- onClick={onBuy}
+ onClick={onAddToCart}
  disabled={!isAvailable}
  className="flex-1"
  >
- Buy Now
+ Add to Cart
  </Button>
  </div>
  </div>

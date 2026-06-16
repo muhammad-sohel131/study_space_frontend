@@ -2,8 +2,9 @@
 
 import Link from 'next/link';
 import { useAuthStore } from '@/store/useAuthStore';
+import { useCartStore } from '@/store/useCartStore';
 import { Button } from '../ui/Button';
-import { BookOpen, LogOut, Menu, X, ShieldCheck } from 'lucide-react';
+import { BookOpen, LogOut, Menu, X, ShieldCheck, ShoppingCart } from 'lucide-react';
 import { useRouter, usePathname } from 'next/navigation';
 import { useState } from 'react';
 
@@ -12,6 +13,7 @@ export function Navbar() {
   const router = useRouter();
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const totalCartItems = useCartStore((state) => state.getTotalItems());
 
   const isDashboard = pathname?.startsWith('/dashboard') || pathname?.startsWith('/admin');
   if (isDashboard) return null;
@@ -61,8 +63,19 @@ export function Navbar() {
             Library
           </Link>
 
+          <div className="h-6 w-px bg-slate-200"></div>
+
+          <Link href="/cart" className="relative p-2 text-slate-600 hover:text-violet-600 transition-colors">
+            <ShoppingCart size={24} />
+            {totalCartItems > 0 && (
+              <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/4 -translate-y-1/4 bg-violet-600 rounded-full">
+                {totalCartItems}
+              </span>
+            )}
+          </Link>
+
           {user ? (
-            <div className="flex items-center gap-6">
+            <div className="flex items-center gap-6 ml-2">
               <Link
                 href="/dashboard"
                 className={`text-sm font-medium transition-colors ${isActive('/dashboard') ? 'text-violet-600' : 'text-slate-600 hover:text-violet-600'

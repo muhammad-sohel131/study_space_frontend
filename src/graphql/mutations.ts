@@ -57,8 +57,10 @@ export const BUY_BOOK = gql`
     buyBook(createOrderInput: $createOrderInput) {
       id
       userId
-      bookId
-      quantity
+      items {
+        bookId
+        quantity
+      }
       totalAmount
       paymentStatus
       status

@@ -179,18 +179,20 @@ export const GET_MY_ORDERS = gql`
   query GetMyOrders {
     myOrders {
       id
-      bookId
-      quantity
       totalAmount
       paymentStatus
       status
-      book {
-        title
-        author
-        productType
-        coverImageUrl
-        previewPdfUrl
-        fullPdfUrl
+      items {
+        bookId
+        quantity
+        book {
+          title
+          author
+          productType
+          coverImageUrl
+          previewPdfUrl
+          fullPdfUrl
+        }
       }
     }
   }

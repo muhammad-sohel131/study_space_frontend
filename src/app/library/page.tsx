@@ -13,6 +13,7 @@ import { Button } from '@/components/ui/Button';
 import { CardSkeleton } from '@/components/ui/Skeleton';
 import { Search, SlidersHorizontal } from 'lucide-react';
 import { useAuthStore } from '@/store/useAuthStore';
+import { useCartStore } from '@/store/useCartStore';
 import { useRouter } from 'next/navigation';
 import { Pagination } from '@/components/ui/Pagination';
 
@@ -50,44 +51,22 @@ export default function LibraryPage() {
  const books = booksData?.data || [];
  const totalPages = booksData?.totalPages || 1;
 
- const initOrderPaymentMutation = useMutation({
-   mutationFn: async (orderId: string) => graphqlClient.request<{ initOrderPayment: { paymentUrl: string } }>(INIT_ORDER_PAYMENT, { orderId }),
-   onSuccess: (data) => {
-     window.location.href = data.initOrderPayment.paymentUrl;
-   },
-   onError: () => {
-     toast.error('Failed to initialize payment');
-   }
- });
+ const addItemToCart = useCartStore((state) => state.addItem);
 
- const buyMutation = useMutation({
-   mutationFn: async (bookId: string) => {
-     if (!user) {
-       toast.error('Please login to buy books');
-       router.push('/login');
-       return;
-     }
-     const variables = { createOrderInput: { bookId, quantity: 1 } };
-     return graphqlClient.request<{ buyBook: { id: string } }>(BUY_BOOK, variables);
-   },
-   onSuccess: (data) => {
-     toast.success('Order created! Redirecting to payment...');
-     if (data?.buyBook?.id) {
-       initOrderPaymentMutation.mutate(data.buyBook.id);
-     }
-   },
-   onError: (error: any) => {
-     toast.error(error.response?.errors?.[0]?.message || 'Failed to purchase book');
-   }
- });
-
- const handleBuy = (bookId: string) => {
+ const handleAddToCart = (book: BookItem) => {
    if (!user) {
      toast.error('Please login first');
      router.push('/login');
      return;
    }
-   buyMutation.mutate(bookId);
+   addItemToCart({
+     bookId: book.id,
+     title: book.title,
+     price: book.price,
+     quantity: 1,
+     coverImageUrl: book.coverImageUrl,
+   });
+   toast.success(`${book.title} added to cart`);
  };
 
  const filteredBooks = useMemo(() => {
@@ -181,7 +160,7 @@ export default function LibraryPage() {
              previewPdfUrl={book.previewPdfUrl}
              isAvailable={book.stock > 0}
              isFavorite={favorites.has(book.id)}
-             onBuy={() => handleBuy(book.id)}
+             onAddToCart={() => handleAddToCart(book)}
              onToggleFavorite={() => toggleFavorite(book.id)}
            />
          ))}
