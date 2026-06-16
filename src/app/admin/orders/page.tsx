@@ -38,7 +38,7 @@ export default function AdminOrders() {
 
       <div className="grid gap-6">
         {isLoading ? (
-          [1, 2, 3].map(i => <Card key={i} className="h-24 animate-pulse bg-slate-100" />)
+          [1, 2, 3].map(i => <Card key={i} className="h-24 animate-pulse bg-slate-100"><div /></Card>)
         ) : orders?.map((order: any) => (
           <Card key={order.id} className="bg-white p-6 rounded-3xl border border-slate-200 shadow-lg shadow-slate-200/50 flex flex-col md:flex-row md:items-center gap-6 hover:border-indigo-200 transition-all group">
             <div className={`h-14 w-14 rounded-2xl flex items-center justify-center shrink-0 ${order.deliveryStatus === 'delivered' ? 'bg-emerald-50 text-emerald-600' : 'bg-amber-50 text-amber-600'}`}>
