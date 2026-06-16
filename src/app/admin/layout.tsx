@@ -14,7 +14,8 @@ import {
   ChevronRight,
   Menu,
   X,
-  Book
+  Book,
+  Package
 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -43,6 +44,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { name: 'Seats', href: '/admin/seats', icon: Armchair },
     { name: 'Bookings', href: '/admin/bookings', icon: CalendarCheck },
     { name: 'Books', href: '/admin/books', icon: Book },
+    { name: 'Orders', href: '/admin/orders', icon: Package },
     { name: 'Payments', href: '/admin/payments', icon: CreditCard },
   ];
 

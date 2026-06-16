@@ -197,3 +197,27 @@ export const GET_MY_ORDERS = gql`
     }
   }
 `;
+
+export const GET_ALL_ORDERS = gql`
+  query GetAllOrders {
+    allOrders {
+      id
+      userId
+      totalAmount
+      paymentStatus
+      status
+      deliveryStatus
+      items {
+        bookId
+        quantity
+        book {
+          title
+          author
+          productType
+          coverImageUrl
+          fullPdfUrl
+        }
+      }
+    }
+  }
+`;

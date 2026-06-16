@@ -176,3 +176,12 @@ export const DELETE_BOOK = gql`
     deleteBook(id: $id)
   }
 `;
+
+export const MARK_ORDER_DELIVERED = gql`
+  mutation MarkOrderDelivered($orderId: String!) {
+    markOrderDelivered(orderId: $orderId) {
+      id
+      deliveryStatus
+    }
+  }
+`;
