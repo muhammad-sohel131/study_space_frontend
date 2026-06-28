@@ -1,6 +1,6 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination, Navigation, EffectFade } from 'swiper/modules';
 import Image from 'next/image';
@@ -42,8 +42,38 @@ const slides = [
 ];
 
 export function HeroSlider() {
+  // activeIndex lets us re-key the content per slide, which restarts the per-slide animations
+  const [activeIndex, setActiveIndex] = useState(0);
+  // controls the scroll-triggered reveal of the whole slider
+  const [isInView, setIsInView] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const node = sectionRef.current;
+    if (!node) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+          // only needs to fire once
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.2 }
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section className="relative w-full mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-16">
+    <section
+      ref={sectionRef}
+      className={`relative w-full mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-16 transition-all duration-1000 ease-out ${
+        isInView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+      }`}
+    >
       <div className="relative rounded-3xl overflow-hidden shadow-2xl bg-slate-900 border border-slate-800/50 group">
         <Swiper
           modules={[Autoplay, Pagination, Navigation, EffectFade]}
@@ -63,9 +93,10 @@ export function HeroSlider() {
             prevEl: '.swiper-button-prev-custom',
           }}
           loop={true}
-          className="w-full h-[600px] lg:h-[700px]"
+          onSlideChange={(swiper) => setActiveIndex(swiper.realIndex)}
+          className="w-full h-[calc(100vh-var(--header-height,80px))] min-h-[480px]"
         >
-          {slides.map((slide) => (
+          {slides.map((slide, slideIdx) => (
             <SwiperSlide key={slide.id} className="relative w-full h-full">
               {/* Background Image with Zoom Animation */}
               <div className="absolute inset-0 w-full h-full overflow-hidden">
@@ -74,7 +105,9 @@ export function HeroSlider() {
                   alt={slide.title}
                   fill
                   priority={slide.id === 1}
-                  className="object-cover object-center transform transition-transform duration-[10000ms] ease-out"
+                  className={`object-cover object-center transition-transform duration-[10000ms] ease-out ${
+                    activeIndex === slideIdx ? 'scale-110' : 'scale-100'
+                  }`}
                   sizes="(max-width: 768px) 100vw, (max-width: 1200px) 100vw, 1280px"
                 />
                 {/* Dark Overlays for Readability */}
@@ -83,38 +116,57 @@ export function HeroSlider() {
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent z-10" />
               </div>
 
-              {/* Content */}
+              {/* Content — re-keyed on activeIndex so animations replay each time the slide becomes active */}
               <div className="relative z-20 h-full max-w-7xl mx-auto flex items-center">
-                <div className="w-full max-w-4xl px-6 sm:px-12 lg:px-20">
-                  <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-400/20 text-indigo-300 text-sm font-medium mb-6 backdrop-blur-md">
+                <div className="w-full max-w-4xl px-6 sm:px-12 lg:px-20" key={activeIndex === slideIdx ? `active-${slide.id}` : `inactive-${slide.id}`}>
+                  <div
+                    className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-400/20 text-indigo-300 text-sm font-medium mb-6 backdrop-blur-md opacity-0 animate-slide-in cursor-default hover:bg-indigo-500/20 hover:border-indigo-400/40 transition-colors duration-300"
+                    style={{ animationDelay: '0.1s' }}
+                  >
                     <span className="flex h-2 w-2 rounded-full bg-indigo-400 animate-pulse"></span>
                     Premium Study Space
                   </div>
 
-                  <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-white tracking-tight mb-6 leading-[1.1]">
+                  <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-white tracking-tight mb-6 leading-[1.1] flex flex-wrap">
                     {slide.title.split(' ').map((word, i, arr) => {
-                      if (i >= arr.length - 2) {
-                        return <span key={i} className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-indigo-200">{word} </span>
-                      }
-                      return word + ' '
+                      const isHighlighted = i >= arr.length - 2;
+                      return (
+                        <span
+                          key={i}
+                          className={`opacity-0 animate-slide-in inline-block mr-3 cursor-default transition-all duration-300 hover:-translate-y-1 hover:scale-105 ${
+                            isHighlighted
+                              ? 'text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-indigo-200 hover:from-indigo-300 hover:to-white'
+                              : 'hover:text-indigo-200'
+                          }`}
+                          style={{ animationDelay: `${0.25 + i * 0.08}s` }}
+                        >
+                          {word}
+                        </span>
+                      );
                     })}
                   </h1>
 
-                  <p className="text-lg sm:text-xl text-slate-300 mb-10 max-w-2xl leading-relaxed">
+                  <p
+                    className="text-lg sm:text-xl text-slate-300 mb-10 max-w-2xl leading-relaxed opacity-0 animate-slide-in"
+                    style={{ animationDelay: '0.6s' }}
+                  >
                     {slide.description}
                   </p>
 
-                  <div className="flex flex-col sm:flex-row gap-4">
+                  <div
+                    className="flex flex-col sm:flex-row gap-4 opacity-0 animate-slide-in"
+                    style={{ animationDelay: '0.75s' }}
+                  >
                     <Link href="/centers">
-                      <Button size="lg" className="w-full sm:w-auto h-14 px-8 bg-indigo-600 hover:bg-indigo-500 text-white rounded-full text-lg shadow-[0_0_40px_-10px_rgba(79,70,229,0.5)] transition-all duration-300 hover:shadow-[0_0_60px_-15px_rgba(79,70,229,0.7)] hover:-translate-y-1">
+                      <Button size="lg" className="w-full cursor-pointer sm:w-auto h-14 px-8 bg-indigo-600 hover:bg-indigo-500 text-white rounded-full text-lg shadow-[0_0_40px_-10px_rgba(79,70,229,0.5)] transition-all duration-300 hover:shadow-[0_0_60px_-15px_rgba(79,70,229,0.7)] hover:-translate-y-1 hover:scale-105 group/cta">
                         Book Seat
-                        <ArrowRight className="ml-2 h-5 w-5" />
+                        <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover/cta:translate-x-1" />
                       </Button>
                     </Link>
                     <Link href="/centers">
-                      <Button size="lg" variant="outline" className="w-full sm:w-auto h-14 px-8 bg-white/5 border-white/20 hover:bg-white/10 text-white rounded-full text-lg backdrop-blur-sm transition-all duration-300 hover:-translate-y-1">
+                      <Button size="lg" variant="outline" className="w-full cursor-pointer sm:w-auto h-14 px-8 bg-white/5 border-white/20 hover:bg-white/10 text-white rounded-full text-lg backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:scale-105 group/cta2">
                         Explore Centers
-                        <MapPin className="ml-2 h-5 w-5" />
+                        <MapPin className="ml-2 h-5 w-5 transition-transform duration-300 group-hover/cta2:scale-125" />
                       </Button>
                     </Link>
                   </div>
@@ -139,6 +191,22 @@ export function HeroSlider() {
       </div>
 
       <style jsx global>{`
+        @keyframes slide-in {
+          from {
+            opacity: 0;
+            transform: translateY(24px);
+            filter: blur(4px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+            filter: blur(0);
+          }
+        }
+        .animate-slide-in {
+          animation: slide-in 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+
         .swiper-pagination-custom .swiper-pagination-bullet {
           width: 8px;
           height: 8px;
