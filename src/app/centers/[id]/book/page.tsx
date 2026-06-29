@@ -379,7 +379,7 @@ export default function BookSeatPage() {
                   {[1, 2, 3, 4, 5, 6].map(i => <Skeleton key={i} className="h-12 w-full rounded-2xl" />)}
                 </div>
               ) : (
-                <div className="flex-1 flex flex-col items-center justify-center py-10 relative">
+                <div className="flex-1 flex flex-col items-start justify-start py-10 relative">
                   {/* Entrance Marker */}
                   <div className="w-full max-w-md h-2 bg-slate-100 rounded-full mb-20 relative">
                     <div className="absolute -top-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
@@ -389,7 +389,7 @@ export default function BookSeatPage() {
                   </div>
 
                   {/* Physical Grid Layout */}
-                  <div className="space-y-4 w-full overflow-x-auto pb-12 scrollbar-hide flex flex-col items-center">
+                  <div className="space-y-4 w-full overflow-x-auto pb-12 scrollbar-hide flex flex-col items-start">
                     {gridData.map((row, y) => (
                       <div key={y} className="flex gap-4 p-1">
                         {row.map((seat, x) => {
