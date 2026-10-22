@@ -37,6 +37,30 @@
   @apply transition-colors duration-200;
 }
 
+/* Ensure all clickable, interactive, and linkable elements show the pointer cursor */
+a,
+button,
+[role="button"],
+select,
+summary,
+input[type="submit"],
+input[type="reset"],
+input[type="button"],
+input[type="checkbox"],
+input[type="radio"],
+input[type="file"],
+label[for],
+.cursor-pointer {
+  cursor: pointer;
+}
+
+button:disabled,
+[role="button"][aria-disabled="true"],
+input:disabled,
+.cursor-not-allowed {
+  cursor: not-allowed;
+}
+
 html {
   scroll-behavior: smooth;
 }

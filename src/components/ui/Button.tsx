@@ -15,7 +15,7 @@ export function Button({
  disabled,
  ...props
 }: ButtonProps) {
- const baseStyles = 'inline-flex items-center justify-center rounded-lg font-semibold transition-all duration-300 ease-out transform-gpu will-change-transform focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none focus:ring-offset-slate-50 ';
+ const baseStyles = 'inline-flex items-center justify-center rounded-lg font-semibold transition-all duration-300 ease-out transform-gpu will-change-transform focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none cursor-pointer disabled:cursor-not-allowed focus:ring-offset-slate-50 ';
  
  const variants = {
  primary: 'bg-violet-600 text-white hover:bg-violet-700 active:bg-violet-800 focus:ring-violet-500 shadow-md hover:shadow-lg hover:scale-105 active:scale-95',

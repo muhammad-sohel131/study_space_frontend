@@ -61,64 +61,65 @@ export function VisualHowItWorks() {
           {steps.map((item, idx) => {
             const Icon = item.icon;
             return (
-              <motion.div
-                key={item.step}
-                initial={{ opacity: 0, y: 40 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: idx * 0.2 }}
-                whileHover={{ y: -6, transition: { duration: 0.35, ease: 'easeOut' } }}
-                className="group relative bg-white rounded-3xl overflow-hidden shadow-xl shadow-slate-200/50 border border-slate-200/80 hover:border-violet-300 transition-all duration-300 ease-out flex flex-col justify-between"
-              >
-                {/* Image Section */}
-                <div className="relative w-full h-56 overflow-hidden bg-slate-900">
-                  <Image
-                    src={item.image}
-                    alt={item.title}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                    className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-transparent to-black/20" />
+              <Link key={item.step} href="/centers" className="cursor-pointer block">
+                <motion.div
+                  initial={{ opacity: 0, y: 40 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: idx * 0.2 }}
+                  whileHover={{ y: -6, transition: { duration: 0.35, ease: 'easeOut' } }}
+                  className="group relative h-full bg-white rounded-3xl overflow-hidden shadow-xl shadow-slate-200/50 border border-slate-200/80 hover:border-violet-300 transition-all duration-300 ease-out flex flex-col justify-between"
+                >
+                  {/* Image Section */}
+                  <div className="relative w-full h-56 overflow-hidden bg-slate-900">
+                    <Image
+                      src={item.image}
+                      alt={item.title}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                      className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-transparent to-black/20" />
 
-                  {/* Step Number Badge */}
-                  <div className="absolute top-4 left-4 z-20">
-                    <div className={`h-11 w-11 rounded-2xl bg-gradient-to-br ${item.gradient} text-white font-black text-lg flex items-center justify-center shadow-lg font-sans`}>
-                      {item.step}
-                    </div>
-                  </div>
-
-                  {/* Highlight pill */}
-                  <div className="absolute bottom-3 right-3 z-20">
-                    <span className="px-3 py-1 rounded-full text-xs font-bold bg-white/95 text-slate-900 backdrop-blur-md shadow-md">
-                      {item.highlight}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Content */}
-                <div className="p-6 sm:p-7 flex-1 flex flex-col justify-between">
-                  <div>
-                    <div className="flex items-center gap-2.5 mb-3">
-                      <div className="w-8 h-8 rounded-lg bg-violet-50 text-violet-600 flex items-center justify-center shrink-0">
-                        <Icon className="w-4 h-4" />
+                    {/* Step Number Badge */}
+                    <div className="absolute top-4 left-4 z-20">
+                      <div className={`h-11 w-11 rounded-2xl bg-gradient-to-br ${item.gradient} text-white font-black text-lg flex items-center justify-center shadow-lg font-sans`}>
+                        {item.step}
                       </div>
-                      <h3 className="text-xl font-bold text-slate-900 group-hover:text-violet-600 transition-colors">
-                        {item.title}
-                      </h3>
                     </div>
 
-                    <p className="text-slate-600 text-sm leading-relaxed mb-6">
-                      {item.description}
-                    </p>
+                    {/* Highlight pill */}
+                    <div className="absolute bottom-3 right-3 z-20">
+                      <span className="px-3 py-1 rounded-full text-xs font-bold bg-white/95 text-slate-900 backdrop-blur-md shadow-md">
+                        {item.highlight}
+                      </span>
+                    </div>
                   </div>
 
-                  <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-violet-600">
-                    <span>Step {item.step} of 03</span>
-                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                  {/* Content */}
+                  <div className="p-6 sm:p-7 flex-1 flex flex-col justify-between">
+                    <div>
+                      <div className="flex items-center gap-2.5 mb-3">
+                        <div className="w-8 h-8 rounded-lg bg-violet-50 text-violet-600 flex items-center justify-center shrink-0">
+                          <Icon className="w-4 h-4" />
+                        </div>
+                        <h3 className="text-xl font-bold text-slate-900 group-hover:text-violet-600 transition-colors">
+                          {item.title}
+                        </h3>
+                      </div>
+
+                      <p className="text-slate-600 text-sm leading-relaxed mb-6">
+                        {item.description}
+                      </p>
+                    </div>
+
+                    <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-violet-600">
+                      <span>Step {item.step} of 03</span>
+                      <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                    </div>
                   </div>
-                </div>
-              </motion.div>
+                </motion.div>
+              </Link>
             );
           })}
         </div>
