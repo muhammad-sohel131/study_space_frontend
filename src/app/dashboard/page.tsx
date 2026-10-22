@@ -59,6 +59,7 @@ export default function DashboardPage() {
   const [selectedBooking, setSelectedBooking] = useState<Booking | null>(null);
   const [renewalHours, setRenewalHours] = useState(1);
   const [page, setPage] = useState(1);
+  const [borrowFilter, setBorrowFilter] = useState<'running' | 'returned'>('running');
   const limit = 10;
 
   useEffect(() => {
@@ -382,41 +383,94 @@ export default function DashboardPage() {
     </div>
   );
 
+  const runningBorrows = (myBorrows || []).filter((b: any) => b.status !== 'returned');
+  const returnedBorrows = (myBorrows || []).filter((b: any) => b.status === 'returned');
+  const displayedBorrows = borrowFilter === 'running' ? runningBorrows : returnedBorrows;
+
   const borrowedBooksContent = (
     <div className="mt-8">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
-          <h2 className="text-xl font-bold text-slate-900">Active & Returned Borrowed Books</h2>
-          <p className="text-sm text-slate-500">Pick up physical textbooks at your study hub desk. Return on time to keep library perks active.</p>
+          <h2 className="text-xl font-bold text-slate-900">
+            {borrowFilter === 'running' ? 'Running Borrowed Books' : 'Returned Books History'}
+          </h2>
+          <p className="text-sm text-slate-500">
+            {borrowFilter === 'running'
+              ? 'Active physical textbook rentals currently in your possession. Return on time to keep library perks active.'
+              : 'Archive of physical textbooks you have successfully returned to study hub reception desks.'}
+          </p>
         </div>
-        <Link href="/library">
-          <Button variant="outline" size="sm" className="border-violet-300 text-violet-700 hover:bg-violet-50 font-bold shrink-0">
-            <BookIcon className="w-4 h-4 mr-1.5" />
-            Borrow More Books
-          </Button>
-        </Link>
+
+        <div className="flex items-center gap-3 flex-wrap">
+          {myBorrows && myBorrows.length > 0 && (
+            <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-xl border border-slate-200/80">
+              <button
+                onClick={() => setBorrowFilter('running')}
+                className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                  borrowFilter === 'running'
+                    ? 'bg-white text-violet-700 shadow-sm'
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                Running ({runningBorrows.length})
+              </button>
+              <button
+                onClick={() => setBorrowFilter('returned')}
+                className={`px-3.5 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                  borrowFilter === 'returned'
+                    ? 'bg-white text-violet-700 shadow-sm'
+                    : 'text-slate-600 hover:text-slate-900'
+                }`}
+              >
+                Returned History ({returnedBorrows.length})
+              </button>
+            </div>
+          )}
+
+          <Link href="/library">
+            <Button variant="outline" size="sm" className="border-violet-300 text-violet-700 hover:bg-violet-50 font-bold shrink-0">
+              <BookIcon className="w-4 h-4 mr-1.5" />
+              Borrow More Books
+            </Button>
+          </Link>
+        </div>
       </div>
 
       {loadingBorrows ? (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {[1, 2, 3].map(i => <Skeleton key={i} className="h-64 w-full rounded-2xl" />)}
         </div>
-      ) : !myBorrows || myBorrows.length === 0 ? (
+      ) : displayedBorrows.length === 0 ? (
         <div className="text-center py-16 bg-white rounded-3xl border border-slate-200/80 p-8 shadow-sm">
-          <div className="text-5xl mb-3">📖</div>
-          <h3 className="text-lg font-bold text-slate-900 mb-1">No Borrowed Books Currently</h3>
+          <div className="text-5xl mb-3">{borrowFilter === 'running' ? '📚' : '📦'}</div>
+          <h3 className="text-lg font-bold text-slate-900 mb-1">
+            {borrowFilter === 'running' ? 'No Running Borrowed Books' : 'No Returned Books Record'}
+          </h3>
           <p className="text-sm text-slate-500 max-w-md mx-auto mb-6">
-            As a registered StudySpace learner, you can rent and borrow any available physical textbook for your study sessions starting at only ৳15/day!
+            {borrowFilter === 'running'
+              ? 'You do not have any active borrowed books at this moment. Pick textbooks from the library for ৳15/day!'
+              : 'You have not returned any books yet.'}
           </p>
-          <Link href="/library">
-            <Button className="bg-violet-600 hover:bg-violet-700 text-white font-bold">
-              Browse Library & Rent Books
-            </Button>
-          </Link>
+          <div className="flex items-center justify-center gap-3">
+            <Link href="/library">
+              <Button className="bg-violet-600 hover:bg-violet-700 text-white font-bold">
+                Browse Library & Rent Books
+              </Button>
+            </Link>
+            {borrowFilter === 'running' && returnedBorrows.length > 0 && (
+              <Button
+                variant="outline"
+                onClick={() => setBorrowFilter('returned')}
+                className="font-bold text-slate-700 border-slate-300"
+              >
+                View Returned History ({returnedBorrows.length})
+              </Button>
+            )}
+          </div>
         </div>
       ) : (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {myBorrows.map((borrow: any) => {
+          {displayedBorrows.map((borrow: any) => {
             const isPaid = borrow.paymentStatus === 'paid';
             const isReturned = borrow.status === 'returned';
             const isOverdue = borrow.status === 'overdue' || (!isReturned && isPaid && new Date(borrow.dueDate) < new Date());
@@ -542,7 +596,12 @@ export default function DashboardPage() {
         <Tabs
           items={[
             { label: 'Seat Bookings', value: 'seats', icon: <Armchair className="w-4 h-4" />, content: seatBookingsContent },
-            { label: 'Borrowed Books', value: 'borrows', icon: <BookmarkCheck className="w-4 h-4" />, content: borrowedBooksContent },
+            {
+              label: runningBorrows.length > 0 ? `Borrowed Books (${runningBorrows.length})` : 'Borrowed Books',
+              value: 'borrows',
+              icon: <BookmarkCheck className="w-4 h-4" />,
+              content: borrowedBooksContent,
+            },
             { label: 'My Purchased Library', value: 'library', icon: <BookIcon className="w-4 h-4" />, content: libraryContent },
           ]}
         />
