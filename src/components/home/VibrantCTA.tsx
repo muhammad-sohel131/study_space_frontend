@@ -63,7 +63,7 @@ export function VibrantCTA() {
               size="lg"
               className="w-full sm:w-auto h-14 px-8 bg-white hover:bg-slate-100 text-violet-900 font-bold rounded-2xl text-base shadow-2xl shadow-violet-900/50 hover:scale-105 transition-all duration-300"
             >
-              <span>Find a Center & Book Seat (From ৳35/hr)</span>
+              <span>Book Seat or Overnight Stay</span>
               <ArrowRight className="ml-2 w-5 h-5 text-violet-700" />
             </Button>
           </Link>
@@ -73,7 +73,7 @@ export function VibrantCTA() {
               variant="outline"
               className="w-full sm:w-auto h-14 px-8 bg-white/10 hover:bg-white/20 text-white border-white/25 rounded-2xl text-base backdrop-blur-md transition-all duration-300"
             >
-              <span>Explore Resource Library</span>
+              <span>Explore Academic Library</span>
             </Button>
           </Link>
         </motion.div>
@@ -88,7 +88,7 @@ export function VibrantCTA() {
             ))}
           </div>
           <span className="font-medium">
-            Over <strong className="text-white font-bold">12,000+ students & professionals</strong> study here each month
+            Join ambitious <strong className="text-white font-bold">BCS, Medical & University learners</strong> across Bangladesh
           </span>
         </div>
 
@@ -96,7 +96,7 @@ export function VibrantCTA() {
         <div className="mt-12 pt-8 border-t border-white/10 grid grid-cols-2 md:grid-cols-4 gap-4 text-xs text-violet-200/80">
           <div className="flex items-center justify-center gap-2">
             <Zap className="w-4 h-4 text-amber-400" />
-            <span>Instant Seat Confirmation</span>
+            <span>Instant Digital Confirmation</span>
           </div>
           <div className="flex items-center justify-center gap-2">
             <ShieldCheck className="w-4 h-4 text-emerald-400" />
@@ -104,11 +104,11 @@ export function VibrantCTA() {
           </div>
           <div className="flex items-center justify-center gap-2">
             <CheckCircle2 className="w-4 h-4 text-cyan-400" />
-            <span>Pay Per Hour (৳35) or Month</span>
+            <span>Seats from ৳35/hr • Stays from ৳680</span>
           </div>
           <div className="flex items-center justify-center gap-2">
             <MapPin className="w-4 h-4 text-rose-400" />
-            <span>50+ Centers Across Bangladesh</span>
+            <span>5 Academic Hubs Across Dhaka & CTG</span>
           </div>
         </div>
 

@@ -7,9 +7,9 @@ import { MapPin, Wifi, BookOpen, Star, Flame, Zap, Bed } from 'lucide-react';
 const stats = [
   {
     icon: MapPin,
-    value: '50+',
-    label: 'Modern Study Hubs',
-    sublabel: 'Dhanmondi, Nilkhet, Uttara, Mirpur, CTG & Sylhet',
+    value: '5',
+    label: 'Premier Academic Hubs',
+    sublabel: 'Dhanmondi, Nilkhet (DU), Uttara, Mirpur & Chattogram',
     gradient: 'from-violet-500 to-indigo-500',
     iconBg: 'bg-violet-500/10 text-violet-600',
     borderColor: 'hover:border-violet-300',
@@ -24,19 +24,19 @@ const stats = [
     borderColor: 'hover:border-blue-300',
   },
   {
-    icon: BookOpen,
-    value: '10,000+',
-    label: 'Curated Academic Books',
-    sublabel: 'BCS, Medical, BUET, IBA & university guides',
+    icon: Bed,
+    value: 'Study & Stay',
+    label: 'Overnight Residency',
+    sublabel: 'Pods, suites & bunks with live bed availability',
     gradient: 'from-emerald-500 to-teal-500',
     iconBg: 'bg-emerald-500/10 text-emerald-600',
     borderColor: 'hover:border-emerald-300',
   },
   {
-    icon: Star,
-    value: '4.95 / 5',
-    label: 'Top Student Satisfaction',
-    sublabel: 'Rated by 8,500+ learners across Bangladesh',
+    icon: BookOpen,
+    value: 'Dual Access',
+    label: 'Academic Book Bank',
+    sublabel: 'Free physical textbook borrowing & instant PDF previews',
     gradient: 'from-amber-500 to-orange-500',
     iconBg: 'bg-amber-500/10 text-amber-600',
     borderColor: 'hover:border-amber-300',
@@ -59,7 +59,7 @@ export function QuickStatsBar() {
             <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
           </span>
           <span className="text-sm sm:text-base font-medium text-slate-200">
-            <strong className="text-emerald-400 font-semibold">142+ students</strong> currently studying live across Dhaka & divisional hubs
+            <strong className="text-emerald-400 font-semibold">140+ students</strong> currently studying live across Dhaka & Chattogram hubs
           </span>
         </div>
         <div className="flex items-center gap-3 flex-wrap">

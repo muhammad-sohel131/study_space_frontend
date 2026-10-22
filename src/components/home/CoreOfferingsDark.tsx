@@ -3,13 +3,13 @@
 import React from 'react';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { CalendarCheck, BookOpen, ShieldCheck, TrendingUp, Sparkles, ArrowRight, Zap, Check } from 'lucide-react';
+import { CalendarCheck, BookOpen, ShieldCheck, Bed, Sparkles, ArrowRight, Zap, Check } from 'lucide-react';
 
 const offerings = [
   {
     icon: CalendarCheck,
     title: 'Interactive Seat Map Booking',
-    description: 'Select your exact preferred desk from an interactive 2D/3D floor plan. Book by the hour or grab discounted monthly student passes.',
+    description: 'Select your exact preferred desk from an interactive 2D floor plan. Book by the hour or grab flexible monthly student passes.',
     gradient: 'from-violet-500 to-purple-500',
     borderHover: 'hover:border-violet-500/60',
     tag: 'From ৳35 / hr',
@@ -18,15 +18,26 @@ const offerings = [
     ctaText: 'Explore Live Seat Maps',
   },
   {
+    icon: Bed,
+    title: 'Study & Stay Overnight Residency',
+    description: 'Need multi-day uninterrupted focus? Book private sleeping pods and suites with live empty bed tracking, hot showers, and 24/7 desk access.',
+    gradient: 'from-amber-500 to-orange-500',
+    borderHover: 'hover:border-amber-500/60',
+    tag: 'From ৳680 / night',
+    features: ['Live bed availability by category (Pod, Suite, Bunk)', 'Pick your exact physical bed unit online', 'Hot showers, clean washroom & 24/7 generator backup'],
+    href: '/centers',
+    ctaText: 'Explore Stay Facilities',
+  },
+  {
     icon: BookOpen,
-    title: 'Nilkhet-Curated Resource Library',
-    description: 'Borrow medical, engineering, BCS, and academic textbooks for your session, or purchase hard copies at student discounts.',
+    title: 'Curated Academic Book Bank',
+    description: 'Borrow medical, engineering, BCS, and academic textbooks for your session, or purchase hard copies with instant digital PDF previews.',
     gradient: 'from-blue-500 to-cyan-500',
     borderHover: 'hover:border-blue-500/60',
-    tag: '10,000+ Volumes',
-    features: ['BCS MP3, Professors & Arifur Rahman guides', 'Medical Anatomy, Guyton & Davidson textbooks', 'Discounted student book purchases'],
+    tag: 'Borrow or Buy',
+    features: ['BCS, Medical, BUET & IBA reference guides', 'Dual access: Borrow physical copy or buy directly', 'Instant in-browser PDF preview before reserving'],
     href: '/library',
-    ctaText: 'Browse Book Bank',
+    ctaText: 'Browse Academic Library',
   },
   {
     icon: ShieldCheck,
@@ -35,20 +46,9 @@ const offerings = [
     gradient: 'from-emerald-500 to-teal-500',
     borderHover: 'hover:border-emerald-500/60',
     tag: 'bKash • Nagad • Cards',
-    features: ['Instant QR digital access code on booking', 'Zero hidden security deposits or fees', 'Direct confirmation SMS and email pass'],
+    features: ['SSLCommerz secure payment gateway', 'Zero hidden fees or surprise security deposits', 'Instant digital reservation receipt in student dashboard'],
     href: '/centers',
     ctaText: 'View Pricing & Plans',
-  },
-  {
-    icon: TrendingUp,
-    title: 'Study Analytics & Goal Streaks',
-    description: 'Monitor your deep work hours, consistency streaks, and productivity milestones with your personal student dashboard.',
-    gradient: 'from-amber-500 to-orange-500',
-    borderHover: 'hover:border-amber-500/60',
-    tag: 'Gamified Growth',
-    features: ['Track daily & weekly hours logged', 'Earn study badges & discount perks', 'Export session reports for accountability'],
-    href: '/dashboard',
-    ctaText: 'View Dashboard Demo',
   },
 ];
 
@@ -92,7 +92,7 @@ export function CoreOfferingsDark() {
             transition={{ delay: 0.1 }}
             className="text-base sm:text-lg text-slate-300 leading-relaxed"
           >
-            StudySpace is not just a desk; it is an intelligent learning ecosystem designed to streamline your reservations, study materials, and productivity tracking across Bangladesh.
+            StudySpace is not just a desk; it is a complete learning sanctuary featuring quiet seats, overnight exam stay facilities, and a center-curated textbook library.
           </motion.p>
         </div>
 

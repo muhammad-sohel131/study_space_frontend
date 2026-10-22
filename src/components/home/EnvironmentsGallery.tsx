@@ -26,6 +26,8 @@ const environments = [
     ],
     accentGradient: 'from-violet-600 to-indigo-600',
     popularFor: '46th/47th BCS, Medical FCPS & Residency, CA/CMA, IBA & DU admission',
+    actionText: 'Reserve Silent Pod',
+    actionHref: '/centers',
   },
   {
     id: 'study-stay',
@@ -40,30 +42,34 @@ const environments = [
     amenities: [
       'Private sound-insulated sleeping pod with fresh linen',
       'Dedicated 24/7 study desk on the main floor',
-      'Hot showers, clean washroom, & personal RFID locker',
-      'Complimentary morning tea, filtered water, & 100% power backup',
+      'Hot showers, clean washroom, & personal locker',
+      'Live vacancy tracking by category (Pod, Suite, Bunk)',
     ],
     accentGradient: 'from-emerald-600 to-indigo-600',
     popularFor: 'Intensive exam cramming, BCS & Medical retreats, students visiting Dhaka',
+    actionText: 'Book Overnight Stay',
+    actionHref: '/centers',
   },
   {
     id: 'library-lounge',
     category: 'library',
     title: 'Academic Resource Library',
-    tagline: 'Surrounded by Nilkhet-curated textbooks, reference guides, and quiet nooks',
+    tagline: 'Center-curated textbooks with physical borrowing and instant digital PDF previews',
     image: '/images/library-reading-zone.jpg',
-    badge: '10,000+ Reference Books',
+    badge: 'Curated Academic Books & PDFs',
     badgeColor: 'bg-emerald-500/10 text-emerald-700 border-emerald-200',
     noiseLevel: 'Library Ambiance',
-    priceTag: 'Free Reading for Members',
+    priceTag: 'Free Borrowing for Members',
     amenities: [
       'Comprehensive BCS, Medical, Engineering & IBA textbooks',
-      'Comfortable plush armchairs and wooden carrel desks',
-      'Floor-to-ceiling natural light & calm aesthetic',
-      'On-site book borrowing and scanning facilities',
+      'Dual option: Free physical borrowing or purchase copies',
+      'Instant in-browser PDF preview before reserving',
+      'On-site center pickup & return facility',
     ],
     accentGradient: 'from-emerald-600 to-teal-600',
     popularFor: 'Textbook revisions, thesis writing, medical gross anatomy & literature',
+    actionText: 'Browse Academic Books',
+    actionHref: '/library',
   },
   {
     id: 'collab-room',
@@ -83,6 +89,8 @@ const environments = [
     ],
     accentGradient: 'from-blue-600 to-cyan-600',
     popularFor: 'BUET, DU, NSU & BRACU student projects, coding sprints & group tutoring',
+    actionText: 'Reserve Discussion Suite',
+    actionHref: '/centers',
   },
   {
     id: 'cafe-lounge',
@@ -102,6 +110,8 @@ const environments = [
     ],
     accentGradient: 'from-amber-600 to-orange-600',
     popularFor: 'Study breaks, quick meals, prayers & informal academic discussions',
+    actionText: 'Explore Center Lounges',
+    actionHref: '/centers',
   },
 ];
 
@@ -239,9 +249,9 @@ export function EnvironmentsGallery() {
 
                   {/* Card Actions */}
                   <div className="flex items-center gap-3">
-                    <Link href="/centers" className="flex-1">
+                    <Link href={env.actionHref} className="flex-1">
                       <Button className="w-full bg-slate-900 hover:bg-violet-600 text-white font-bold rounded-xl h-12 transition-all duration-300 group/btn shadow-md hover:shadow-violet-500/25 flex items-center justify-center">
-                        <span>Reserve Seat in This Space</span>
+                        <span>{env.actionText}</span>
                         <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover/btn:translate-x-1" />
                       </Button>
                     </Link>

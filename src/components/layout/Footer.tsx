@@ -67,8 +67,8 @@ export function Footer() {
  </Link>
  </li>
  <li>
- <Link href="/books" className="text-slate-600 hover:text-violet-600 transition-colors text-sm">
- Browse Books
+ <Link href="/library" className="text-slate-600 hover:text-violet-600 transition-colors text-sm">
+ Academic Library
  </Link>
  </li>
  <li>
@@ -117,11 +117,11 @@ export function Footer() {
  <ul className="space-y-4">
  <li className="flex items-start gap-3">
  <MapPin className="h-5 w-5 text-violet-500 shrink-0" />
- <span className="text-slate-600 text-sm">123 Education Hub, Tech Park, Study City 1000</span>
+ <span className="text-slate-600 text-sm">Dhanmondi, Nilkhet, Uttara, Mirpur & Chattogram</span>
  </li>
  <li className="flex items-center gap-3">
  <Phone className="h-5 w-5 text-violet-500 shrink-0" />
- <span className="text-slate-600 text-sm">+1 (555) 123-4567</span>
+ <span className="text-slate-600 text-sm">+880 1800-STUDY (78839)</span>
  </li>
  <li className="flex items-center gap-3">
  <Mail className="h-5 w-5 text-violet-500 shrink-0" />

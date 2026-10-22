@@ -24,20 +24,20 @@ const slides = [
   {
     id: 2,
     image: 'https://res.cloudinary.com/diwvm1tyg/image/upload/v1778246106/modern-study-space_hfttei.jpg',
-    title: 'Premium Quiet Study Environment In Bangladesh',
-    description: 'Experience a calm, modern, and distraction-free study atmosphere across Dhanmondi, Nilkhet, Uttara, Mirpur, Chittagong, and Sylhet.',
+    title: '5 Premier Study Hubs In Dhaka & Chattogram',
+    description: 'Experience a calm, modern, and distraction-free study atmosphere across Dhanmondi, Nilkhet (DU Campus), Uttara, Mirpur, and Chattogram.',
   },
   {
     id: 3,
     image: 'https://res.cloudinary.com/diwvm1tyg/image/upload/v1778246104/online-seat-booking_otl1uz.jpg',
-    title: 'Book Your Seat Online From ৳35/Hour',
-    description: 'Check real-time 2D/3D seat availability, choose your favorite silent pod, and reserve instantly via bKash or Nagad within seconds.',
+    title: 'Interactive Seat Booking From ৳35/Hour',
+    description: 'Select your preferred desk with interactive real-time floor plans, choose silent pods or window seats, and pay instantly via bKash or Nagad.',
   },
   {
     id: 4,
     image: 'https://res.cloudinary.com/diwvm1tyg/image/upload/v1778246112/productive-study-session_lvwude.jpg',
-    title: 'Boost Your BCS & Academic Productivity',
-    description: 'Study smarter in a focused community built for BCS, Medical, BUET, and IBA aspirants who demand peak concentration and top results.',
+    title: 'Study & Stay Overnight Pods From ৳680/Night',
+    description: 'Need multi-day uninterrupted focus? Book private sleeping pods and suites with live empty bed tracking, hot showers, and 24/7 desk access.',
   }
 ];
 
@@ -159,13 +159,13 @@ export function HeroSlider() {
                   >
                     <Link href="/centers">
                       <Button size="lg" className="w-full cursor-pointer sm:w-auto h-14 px-8 bg-indigo-600 hover:bg-indigo-500 text-white rounded-full text-lg shadow-[0_0_40px_-10px_rgba(79,70,229,0.5)] transition-all duration-300 hover:shadow-[0_0_60px_-15px_rgba(79,70,229,0.7)] hover:-translate-y-1 hover:scale-105 group/cta">
-                        Book Seat
+                        Book Seat or Stay
                         <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover/cta:translate-x-1" />
                       </Button>
                     </Link>
                     <Link href="/centers">
                       <Button size="lg" variant="outline" className="w-full cursor-pointer sm:w-auto h-14 px-8 bg-white/5 border-white/20 hover:bg-white/10 text-white rounded-full text-lg backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:scale-105 group/cta2">
-                        Explore Centers
+                        Explore 5 Centers
                         <MapPin className="ml-2 h-5 w-5 transition-transform duration-300 group-hover/cta2:scale-125" />
                       </Button>
                     </Link>
