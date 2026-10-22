@@ -5,7 +5,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import toast from 'react-hot-toast';
 import { graphqlClient } from '@/lib/graphqlClient';
 import { GET_BOOKS, GET_CENTERS } from '@/graphql/queries';
-import { BORROW_BOOK } from '@/graphql/mutations';
+import { BORROW_BOOK, INIT_BORROW_PAYMENT } from '@/graphql/mutations';
 import { BookCard } from '@/components/cards/BookCard';
 import { BorrowBookModal } from '@/components/library/BorrowBookModal';
 import { EmptyState } from '@/components/ui/EmptyState';
@@ -110,6 +110,23 @@ export default function LibraryPage() {
     toast.success(`"${book.title}" added to cart`);
   };
 
+  const initBorrowPaymentMutation = useMutation({
+    mutationFn: async (borrowId: string) => {
+      const res = await graphqlClient.request<{ initBorrowPayment: { paymentUrl: string } }>(
+        INIT_BORROW_PAYMENT,
+        { borrowId }
+      );
+      return res.initBorrowPayment;
+    },
+    onSuccess: (data) => {
+      toast.success('Redirecting to SSLCommerz payment gateway...');
+      window.location.href = data.paymentUrl;
+    },
+    onError: (err: any) => {
+      toast.error(err.response?.errors?.[0]?.message || 'Failed to initialize payment');
+    },
+  });
+
   // Borrow Mutation
   const borrowMutation = useMutation({
     mutationFn: async ({ bookId, durationDays, notes }: { bookId: string; durationDays: number; notes?: string }) => {
@@ -119,12 +136,11 @@ export default function LibraryPage() {
       return response.borrowBook;
     },
     onSuccess: (data) => {
-      toast.success(`Successfully borrowed "${data.book?.title || 'book'}"! Due date: ${new Date(data.dueDate).toLocaleDateString()}`, {
-        duration: 5000,
-      });
-      queryClient.invalidateQueries({ queryKey: ['books'] });
-      queryClient.invalidateQueries({ queryKey: ['myBorrows'] });
-      refetch();
+      toast.success(`Rental reserved! Connecting to SSLCommerz...`);
+      setBorrowingBook(null);
+      if (data?.id) {
+        initBorrowPaymentMutation.mutate(data.id);
+      }
     },
     onError: (error: any) => {
       const msg = error.response?.errors?.[0]?.message || 'Failed to borrow book';
@@ -398,7 +414,7 @@ export default function LibraryPage() {
         onClose={() => setBorrowingBook(null)}
         book={borrowingBook}
         onConfirmBorrow={handleConfirmBorrow}
-        isLoading={borrowMutation.isPending}
+        isLoading={borrowMutation.isPending || initBorrowPaymentMutation.isPending}
       />
     </div>
   );

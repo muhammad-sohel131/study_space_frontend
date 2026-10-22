@@ -140,9 +140,14 @@ export function BorrowBookModal({
               <span className="text-lg font-black text-violet-700">৳{totalCost}</span>
             </div>
           </div>
-          <div className="pt-2 border-t border-violet-200/40 flex items-center gap-1.5 text-[11px] text-slate-600">
-            <ShieldCheck className="w-3.5 h-3.5 text-violet-600 shrink-0" />
-            <span>Rental fee of ৳{totalCost} will be applied for {durationDays} days. Please return on or before due date.</span>
+          <div className="pt-2 border-t border-violet-200/40 flex flex-col sm:flex-row sm:items-center justify-between gap-1 text-[11px] text-slate-600">
+            <span className="flex items-center gap-1.5">
+              <ShieldCheck className="w-3.5 h-3.5 text-violet-600 shrink-0" />
+              <span>Rental fee of ৳{totalCost} for {durationDays} days access.</span>
+            </span>
+            <span className="font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 self-start sm:self-auto">
+              SSLCommerz Payment Gateway
+            </span>
           </div>
         </div>
 
@@ -167,10 +172,10 @@ export function BorrowBookModal({
           </Button>
           <Button
             onClick={handleConfirm}
-            className="flex-1 bg-violet-600 hover:bg-violet-700 text-white font-bold h-11"
+            className="flex-1 bg-violet-600 hover:bg-violet-700 text-white font-bold h-11 flex items-center justify-center gap-2"
             disabled={isLoading}
           >
-            {isLoading ? 'Processing...' : `Pay ৳${totalCost} & Confirm Borrow`}
+            {isLoading ? 'Connecting to SSLCommerz...' : `Pay ৳${totalCost} via SSLCommerz`}
           </Button>
         </div>
       </div>

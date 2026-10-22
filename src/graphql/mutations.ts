@@ -234,3 +234,11 @@ export const RETURN_BOOK = gql`
   }
 `;
 
+export const INIT_BORROW_PAYMENT = gql`
+  mutation InitBorrowPayment($borrowId: String!) {
+    initBorrowPayment(borrowId: $borrowId) {
+      paymentUrl
+    }
+  }
+`;
+

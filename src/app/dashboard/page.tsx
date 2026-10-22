@@ -4,7 +4,7 @@ import { useQuery, useMutation } from '@tanstack/react-query';
 import { format, isAfter, isBefore, addHours, differenceInMinutes } from 'date-fns';
 import { graphqlClient } from '@/lib/graphqlClient';
 import { GET_MY_BOOKINGS, GET_MY_ORDERS, GET_MY_BORROWS } from '@/graphql/queries';
-import { CREATE_BOOKING, INIT_PAYMENT, CANCEL_BOOKING, RETURN_BOOK } from '@/graphql/mutations';
+import { CREATE_BOOKING, INIT_PAYMENT, CANCEL_BOOKING, RETURN_BOOK, INIT_BORROW_PAYMENT } from '@/graphql/mutations';
 import { Card } from '@/components/ui/Card';
 import { CalendarDays, Clock, MapPin, Armchair, ChevronRight, LogOut, RefreshCw, CheckCircle2, Timer, Sparkles, CreditCard, XCircle, Book as BookIcon, Download, BookmarkCheck, ArrowRight, AlertTriangle, Bed } from 'lucide-react';
 import { useAuthStore } from '@/store/useAuthStore';
@@ -113,6 +113,12 @@ export default function DashboardPage() {
     onError: (err: any) => {
       toast.error(err.response?.errors?.[0]?.message || 'Failed to return book');
     }
+  });
+
+  const initBorrowPaymentMutation = useMutation({
+    mutationFn: async (borrowId: string) => graphqlClient.request<{ initBorrowPayment: { paymentUrl: string } }>(INIT_BORROW_PAYMENT, { borrowId }),
+    onSuccess: (data) => { window.location.href = data.initBorrowPayment.paymentUrl; },
+    onError: () => { toast.error('Failed to initialize SSLCommerz payment'); }
   });
 
   const initPaymentMutation = useMutation({
@@ -411,8 +417,9 @@ export default function DashboardPage() {
       ) : (
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {myBorrows.map((borrow: any) => {
+            const isPaid = borrow.paymentStatus === 'paid';
             const isReturned = borrow.status === 'returned';
-            const isOverdue = borrow.status === 'overdue' || (!isReturned && new Date(borrow.dueDate) < new Date());
+            const isOverdue = borrow.status === 'overdue' || (!isReturned && isPaid && new Date(borrow.dueDate) < new Date());
             const rentalCost = borrow.totalCost ?? ((borrow.durationDays || 7) * (borrow.pricePerDay || 15));
 
             return (
@@ -428,10 +435,10 @@ export default function DashboardPage() {
                       </div>
                     )}
                     <Badge
-                      variant={isReturned ? 'secondary' : isOverdue ? 'danger' : 'success'}
-                      className="absolute top-3 left-3 uppercase tracking-wider text-[10px] font-bold"
+                      variant={!isPaid ? 'warning' : isReturned ? 'secondary' : isOverdue ? 'danger' : 'success'}
+                      className={`absolute top-3 left-3 uppercase tracking-wider text-[10px] font-bold ${!isPaid ? 'bg-amber-500 text-white' : ''}`}
                     >
-                      {isReturned ? 'Returned' : isOverdue ? 'Overdue' : 'Active Borrow'}
+                      {!isPaid ? 'Payment Pending' : isReturned ? 'Returned' : isOverdue ? 'Overdue' : 'Active Borrow'}
                     </Badge>
                   </div>
 
@@ -449,9 +456,11 @@ export default function DashboardPage() {
                         <span className="font-semibold text-slate-800">{borrow.durationDays || 7} Days</span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-slate-400 font-medium">Rental Fee:</span>
-                        <span className="font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
-                          ৳{rentalCost} (PAID)
+                        <span className="text-slate-400 font-medium">Payment Status:</span>
+                        <span className={`font-bold px-2 py-0.5 rounded border text-[11px] ${
+                          isPaid ? 'text-emerald-700 bg-emerald-50 border-emerald-200' : 'text-amber-700 bg-amber-50 border-amber-200'
+                        }`}>
+                          {isPaid ? `৳${rentalCost} (PAID)` : `৳${rentalCost} (PENDING)`}
                         </span>
                       </div>
                       <div className="flex justify-between">
@@ -475,7 +484,16 @@ export default function DashboardPage() {
                 </div>
 
                 <div className="p-5 pt-0">
-                  {!isReturned ? (
+                  {!isPaid ? (
+                    <Button
+                      onClick={() => initBorrowPaymentMutation.mutate(borrow.id)}
+                      disabled={initBorrowPaymentMutation.isPending}
+                      className="w-full bg-violet-600 hover:bg-violet-700 text-white font-bold h-11 rounded-xl flex items-center justify-center gap-2 shadow-sm"
+                    >
+                      <CreditCard className="w-4 h-4" />
+                      <span>{initBorrowPaymentMutation.isPending ? 'Redirecting...' : `Pay ৳${rentalCost} via SSLCommerz`}</span>
+                    </Button>
+                  ) : !isReturned ? (
                     <Button
                       onClick={() => returnBookMutation.mutate(borrow.id)}
                       disabled={returnBookMutation.isPending}
