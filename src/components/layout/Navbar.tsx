@@ -18,7 +18,16 @@ export function Navbar() {
   const isDashboard = pathname?.startsWith('/dashboard') || pathname?.startsWith('/admin');
   if (isDashboard) return null;
 
-  const isActive = (path: string) => pathname === path;
+  const isActive = (path: string) => (path === '/' ? pathname === '/' : pathname?.startsWith(path));
+
+  const getNavLinkClass = (path: string) => {
+    const active = isActive(path);
+    return `relative py-1 text-[16px] transition-colors duration-200 after:content-[''] after:absolute after:bottom-[-2px] after:left-0 after:w-full after:h-[2.5px] after:bg-violet-600 after:rounded-full after:transition-transform after:duration-300 after:origin-left ${
+      active
+        ? 'text-violet-600 font-bold after:scale-x-100'
+        : 'text-slate-600 font-medium hover:text-violet-600 after:scale-x-0 hover:after:scale-x-100'
+    }`;
+  };
 
   const handleLogout = () => {
     logout();
@@ -48,18 +57,13 @@ export function Navbar() {
         </div>
 
         <div className="hidden sm:flex items-center gap-8">
-          <Link
-            href="/centers"
-            className={`text-sm font-medium transition-colors ${isActive('/centers') ? 'text-violet-600' : 'text-slate-600 hover:text-violet-600'
-              }`}
-          >
+          <Link href="/" className={getNavLinkClass('/')}>
+            Home
+          </Link>
+          <Link href="/centers" className={getNavLinkClass('/centers')}>
             Centers
           </Link>
-          <Link
-            href="/library"
-            className={`text-sm font-medium transition-colors ${isActive('/library') ? 'text-violet-600' : 'text-slate-600 hover:text-violet-600'
-              }`}
-          >
+          <Link href="/library" className={getNavLinkClass('/library')}>
             Library
           </Link>
 
@@ -76,11 +80,7 @@ export function Navbar() {
 
           {user ? (
             <div className="flex items-center gap-6 ml-2">
-              <Link
-                href="/dashboard"
-                className={`text-sm font-medium transition-colors ${isActive('/dashboard') ? 'text-violet-600' : 'text-slate-600 hover:text-violet-600'
-                  }`}
-              >
+              <Link href="/dashboard" className={getNavLinkClass('/dashboard')}>
                 Dashboard
               </Link>
               <div className="h-6 w-px bg-slate-200"></div>
@@ -120,16 +120,29 @@ export function Navbar() {
       {isMenuOpen && (
         <div className="sm:hidden border-t border-slate-200 bg-white p-4 space-y-3">
           <Link
+            href="/"
+            onClick={() => setIsMenuOpen(false)}
+            className={`block text-[16px] py-2 transition-colors border-l-2 pl-3 ${
+              isActive('/') ? 'text-violet-600 font-bold border-violet-600 bg-violet-50/50' : 'text-slate-600 font-medium border-transparent hover:text-violet-600'
+            }`}
+          >
+            Home
+          </Link>
+          <Link
             href="/centers"
-            className={`block text-sm font-medium py-2 transition-colors ${isActive('/centers') ? 'text-violet-600' : 'text-slate-600 hover:text-violet-600'
-              }`}
+            onClick={() => setIsMenuOpen(false)}
+            className={`block text-[16px] py-2 transition-colors border-l-2 pl-3 ${
+              isActive('/centers') ? 'text-violet-600 font-bold border-violet-600 bg-violet-50/50' : 'text-slate-600 font-medium border-transparent hover:text-violet-600'
+            }`}
           >
             Centers
           </Link>
           <Link
             href="/library"
-            className={`block text-sm font-medium py-2 transition-colors ${isActive('/library') ? 'text-violet-600' : 'text-slate-600 hover:text-violet-600'
-              }`}
+            onClick={() => setIsMenuOpen(false)}
+            className={`block text-[16px] py-2 transition-colors border-l-2 pl-3 ${
+              isActive('/library') ? 'text-violet-600 font-bold border-violet-600 bg-violet-50/50' : 'text-slate-600 font-medium border-transparent hover:text-violet-600'
+            }`}
           >
             Library
           </Link>
@@ -137,8 +150,10 @@ export function Navbar() {
             <>
               <Link
                 href="/dashboard"
-                className={`block text-sm font-medium py-2 transition-colors ${isActive('/dashboard') ? 'text-violet-600' : 'text-slate-600 hover:text-violet-600'
-                  }`}
+                onClick={() => setIsMenuOpen(false)}
+                className={`block text-[16px] py-2 transition-colors border-l-2 pl-3 ${
+                  isActive('/dashboard') ? 'text-violet-600 font-bold border-violet-600 bg-violet-50/50' : 'text-slate-600 font-medium border-transparent hover:text-violet-600'
+                }`}
               >
                 Dashboard
               </Link>
