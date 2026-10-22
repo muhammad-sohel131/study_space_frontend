@@ -89,11 +89,11 @@ export function QuickStatsBar() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: idx * 0.1 }}
-              whileHover={{ y: -5, transition: { duration: 0.2 } }}
-              className={`group relative bg-white/95 backdrop-blur-md p-6 rounded-2xl shadow-lg shadow-slate-200/50 border border-slate-200/80 ${stat.borderColor} transition-all duration-300`}
+              whileHover={{ y: -4, scale: 1.02, transition: { duration: 0.35, ease: 'easeOut' } }}
+              className={`group relative bg-white/95 backdrop-blur-md p-6 rounded-2xl shadow-lg shadow-slate-200/50 border border-slate-200/80 ${stat.borderColor} transition-all duration-300 ease-out`}
             >
               <div className="flex items-center justify-between mb-4">
-                <div className={`w-12 h-12 rounded-xl ${stat.iconBg} flex items-center justify-center transition-transform duration-300 group-hover:scale-110`}>
+                <div className={`w-12 h-12 rounded-xl ${stat.iconBg} flex items-center justify-center transition-transform duration-500 ease-out group-hover:scale-110`}>
                   <Icon className="w-6 h-6" />
                 </div>
                 <span className="text-xs font-bold uppercase tracking-wider text-emerald-600 bg-emerald-50 px-2.5 py-0.5 rounded-full border border-emerald-200">

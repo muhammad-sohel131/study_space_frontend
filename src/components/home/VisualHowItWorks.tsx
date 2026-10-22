@@ -67,8 +67,8 @@ export function VisualHowItWorks() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: idx * 0.2 }}
-                whileHover={{ y: -8, transition: { duration: 0.25 } }}
-                className="group relative bg-white rounded-3xl overflow-hidden shadow-xl shadow-slate-200/50 border border-slate-200/80 hover:border-violet-300 transition-all duration-300 flex flex-col justify-between"
+                whileHover={{ y: -6, transition: { duration: 0.35, ease: 'easeOut' } }}
+                className="group relative bg-white rounded-3xl overflow-hidden shadow-xl shadow-slate-200/50 border border-slate-200/80 hover:border-violet-300 transition-all duration-300 ease-out flex flex-col justify-between"
               >
                 {/* Image Section */}
                 <div className="relative w-full h-56 overflow-hidden bg-slate-900">
@@ -77,7 +77,7 @@ export function VisualHowItWorks() {
                     alt={item.title}
                     fill
                     sizes="(max-width: 768px) 100vw, 33vw"
-                    className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-110"
+                    className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-transparent to-black/20" />
 

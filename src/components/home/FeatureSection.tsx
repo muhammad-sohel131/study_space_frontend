@@ -243,9 +243,10 @@ const FeatureSection: FC = () => {
           className="text-center mt-16"
         >
           <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="inline-flex items-center gap-3 bg-gradient-to-r from-violet-600 to-purple-600 text-white px-8 py-4 rounded-full font-semibold shadow-lg hover:shadow-violet-200/50 transition-all duration-300"
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
+            transition={{ duration: 0.3, ease: 'easeOut' }}
+            className="inline-flex items-center gap-3 bg-gradient-to-r from-violet-600 to-purple-600 text-white px-8 py-4 rounded-full font-semibold shadow-lg hover:shadow-violet-200/50 transition-shadow duration-300"
           >
             Get Started Today
             <ArrowRight className="w-5 h-5" />

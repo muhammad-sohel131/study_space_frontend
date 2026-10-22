@@ -61,7 +61,7 @@ export default function RegisterPage() {
                 {/* Top Header inside Left Hero */}
                 <div className="relative z-20 flex items-center justify-between">
                     <Link href="/" className="inline-flex items-center gap-2.5 text-white group">
-                        <div className="flex items-center justify-center h-10 w-10 rounded-xl bg-violet-600/90 backdrop-blur-md border border-white/20 shadow-lg group-hover:scale-105 transition-transform">
+                        <div className="flex items-center justify-center h-10 w-10 rounded-xl bg-violet-600/90 backdrop-blur-md border border-white/20 shadow-lg group-hover:scale-105 transition-transform duration-300 ease-out">
                             <BookOpen className="h-5 w-5 text-white" />
                         </div>
                         <span className="text-xl font-black tracking-tight text-white drop-shadow">StudySpace</span>

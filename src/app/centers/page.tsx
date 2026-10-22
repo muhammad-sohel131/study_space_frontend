@@ -192,7 +192,7 @@ export default function CentersPage() {
                     <img
                       src={center.coverImage}
                       alt={center.name}
-                      className="absolute inset-0 w-full h-full object-cover z-0 transition-transform duration-500 group-hover:scale-105"
+                      className="absolute inset-0 w-full h-full object-cover z-0 transition-transform duration-700 ease-out group-hover:scale-105"
                     />
                   ) : (
                     <MapPin className="w-12 h-12 text-white/20 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-0" />

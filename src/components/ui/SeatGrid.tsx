@@ -83,7 +83,7 @@ export function SeatGrid({
  onMouseLeave={() => setHoveredSeat(null)}
  disabled={seat.status === 'booked'}
  className={`
- relative h-12 rounded-lg font-semibold transition-all duration-200 transform
+ relative h-12 rounded-lg font-semibold transition-all duration-300 ease-out transform-gpu
  ${getStatusStyles(seat)}
  ${hoveredSeat === seat.id && seat.status !== 'booked' ? 'scale-105' : 'scale-100'}
  active:scale-95 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2

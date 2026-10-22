@@ -51,7 +51,7 @@ export function BookCard({
       {/* Book Cover */}
       <div className="relative h-52 bg-gradient-to-br from-violet-100/60 via-slate-100 to-indigo-50 flex items-center justify-center overflow-hidden">
         {image ? (
-          <img src={image} alt={title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+          <img src={image} alt={title} className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" />
         ) : (
           <div className="text-center p-4">
             <BookOpen className="w-12 h-12 text-violet-400 mx-auto mb-2" />

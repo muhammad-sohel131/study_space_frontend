@@ -133,7 +133,7 @@ export function HeroSlider() {
                       return (
                         <span
                           key={i}
-                          className={`opacity-0 animate-slide-in inline-block mr-3 cursor-default transition-all duration-300 hover:-translate-y-1 hover:scale-105 ${
+                          className={`opacity-0 animate-slide-in inline-block mr-3 cursor-default transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-105 ${
                             isHighlighted
                               ? 'text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-indigo-200 hover:from-indigo-300 hover:to-white'
                               : 'hover:text-indigo-200'
@@ -158,15 +158,15 @@ export function HeroSlider() {
                     style={{ animationDelay: '0.75s' }}
                   >
                     <Link href="/centers">
-                      <Button size="lg" className="w-full cursor-pointer sm:w-auto h-14 px-8 bg-indigo-600 hover:bg-indigo-500 text-white rounded-full text-lg shadow-[0_0_40px_-10px_rgba(79,70,229,0.5)] transition-all duration-300 hover:shadow-[0_0_60px_-15px_rgba(79,70,229,0.7)] hover:-translate-y-1 hover:scale-105 group/cta">
+                      <Button size="lg" className="w-full cursor-pointer sm:w-auto h-14 px-8 bg-indigo-600 hover:bg-indigo-500 text-white rounded-full text-lg shadow-[0_0_40px_-10px_rgba(79,70,229,0.5)] transition-all duration-300 ease-out hover:shadow-[0_0_60px_-15px_rgba(79,70,229,0.7)] hover:-translate-y-1 hover:scale-105 group/cta">
                         Book Seat or Stay
-                        <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 group-hover/cta:translate-x-1" />
+                        <ArrowRight className="ml-2 h-5 w-5 transition-transform duration-300 ease-out group-hover/cta:translate-x-1" />
                       </Button>
                     </Link>
                     <Link href="/centers">
-                      <Button size="lg" variant="outline" className="w-full cursor-pointer sm:w-auto h-14 px-8 bg-white/5 border-white/20 hover:bg-white/10 text-white rounded-full text-lg backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:scale-105 group/cta2">
+                      <Button size="lg" variant="outline" className="w-full cursor-pointer sm:w-auto h-14 px-8 bg-white/5 border-white/20 hover:bg-white/10 text-white rounded-full text-lg backdrop-blur-sm transition-all duration-300 ease-out hover:-translate-y-1 hover:scale-105 group/cta2">
                         Explore 5 Centers
-                        <MapPin className="ml-2 h-5 w-5 transition-transform duration-300 group-hover/cta2:scale-125" />
+                        <MapPin className="ml-2 h-5 w-5 transition-transform duration-300 ease-out group-hover/cta2:scale-110" />
                       </Button>
                     </Link>
                   </div>
@@ -177,11 +177,11 @@ export function HeroSlider() {
 
           {/* Custom Navigation Arrows */}
           <div className="hidden md:flex absolute right-8 bottom-8 z-30 gap-3">
-            <button className="swiper-button-prev-custom w-12 h-12 flex items-center justify-center rounded-full bg-slate-900/40 hover:bg-indigo-600 border border-white/10 text-white backdrop-blur-md transition-all duration-300 hover:scale-110 group/btn cursor-pointer">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transform group-hover/btn:-translate-x-1 transition-transform"><path d="m15 18-6-6 6-6" /></svg>
+            <button className="swiper-button-prev-custom w-12 h-12 flex items-center justify-center rounded-full bg-slate-900/40 hover:bg-indigo-600 border border-white/10 text-white backdrop-blur-md transition-all duration-300 ease-out hover:scale-105 group/btn cursor-pointer">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transform group-hover/btn:-translate-x-1 transition-transform duration-300"><path d="m15 18-6-6 6-6" /></svg>
             </button>
-            <button className="swiper-button-next-custom w-12 h-12 flex items-center justify-center rounded-full bg-slate-900/40 hover:bg-indigo-600 border border-white/10 text-white backdrop-blur-md transition-all duration-300 hover:scale-110 group/btn cursor-pointer">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transform group-hover/btn:translate-x-1 transition-transform"><path d="m9 18 6-6-6-6" /></svg>
+            <button className="swiper-button-next-custom w-12 h-12 flex items-center justify-center rounded-full bg-slate-900/40 hover:bg-indigo-600 border border-white/10 text-white backdrop-blur-md transition-all duration-300 ease-out hover:scale-105 group/btn cursor-pointer">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="transform group-hover/btn:translate-x-1 transition-transform duration-300"><path d="m9 18 6-6-6-6" /></svg>
             </button>
           </div>
 

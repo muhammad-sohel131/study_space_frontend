@@ -15,14 +15,14 @@ export function Button({
  disabled,
  ...props
 }: ButtonProps) {
- const baseStyles = 'inline-flex items-center justify-center rounded-lg font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none focus:ring-offset-slate-50 ';
+ const baseStyles = 'inline-flex items-center justify-center rounded-lg font-semibold transition-all duration-300 ease-out transform-gpu will-change-transform focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none focus:ring-offset-slate-50 ';
  
  const variants = {
- primary: 'bg-violet-600 text-white hover:bg-violet-700 active:bg-violet-800 focus:ring-violet-500 shadow-md hover:shadow-lg hover:scale-105 active:scale-100',
- secondary: 'bg-slate-200 text-slate-900 hover:bg-slate-300 active:bg-slate-400 focus:ring-slate-400 border border-slate-300 ',
- danger: 'bg-red-600 text-white hover:bg-red-700 active:bg-red-800 focus:ring-red-500 shadow-md hover:shadow-lg',
+ primary: 'bg-violet-600 text-white hover:bg-violet-700 active:bg-violet-800 focus:ring-violet-500 shadow-md hover:shadow-lg hover:scale-105 active:scale-95',
+ secondary: 'bg-slate-200 text-slate-900 hover:bg-slate-300 active:bg-slate-400 focus:ring-slate-400 border border-slate-300 hover:scale-[1.02] active:scale-95',
+ danger: 'bg-red-600 text-white hover:bg-red-700 active:bg-red-800 focus:ring-red-500 shadow-md hover:shadow-lg hover:scale-105 active:scale-95',
  ghost: 'bg-transparent text-slate-700 hover:bg-slate-100 active:bg-slate-200 focus:ring-slate-400',
- outline: 'bg-white text-violet-600 border-2 border-violet-600 hover:bg-violet-50 active:bg-violet-100 focus:ring-violet-500',
+ outline: 'bg-white text-violet-600 border-2 border-violet-600 hover:bg-violet-50 active:bg-violet-100 focus:ring-violet-500 hover:scale-[1.02] active:scale-95',
  };
 
  const sizes = {

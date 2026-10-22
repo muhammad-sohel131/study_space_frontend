@@ -22,7 +22,7 @@ export function Navbar() {
 
   const getNavLinkClass = (path: string) => {
     const active = isActive(path);
-    return `relative py-1 text-[16px] transition-colors duration-200 after:content-[''] after:absolute after:bottom-[-2px] after:left-0 after:w-full after:h-[2.5px] after:bg-violet-600 after:rounded-full after:transition-transform after:duration-300 after:origin-left ${
+    return `relative py-1 text-[16px] transition-colors duration-300 ease-out after:content-[''] after:absolute after:bottom-[-2px] after:left-0 after:w-full after:h-[2.5px] after:bg-violet-600 after:rounded-full after:transition-transform after:duration-300 after:ease-out after:origin-left ${
       active
         ? 'text-violet-600 font-bold after:scale-x-100'
         : 'text-slate-600 font-medium hover:text-violet-600 after:scale-x-0 hover:after:scale-x-100'
@@ -37,7 +37,7 @@ export function Navbar() {
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-slate-200 bg-white backdrop-blur-md shadow-sm">
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-        <Link href="/" className="flex items-center gap-2 text-violet-600 hover:text-violet-700 transition-colors">
+        <Link href="/" className="flex items-center gap-2 text-violet-600 hover:text-violet-700 transition-colors duration-300">
           <div className="flex items-center justify-center h-8 w-8 rounded-lg bg-violet-100">
             <BookOpen className="h-5 w-5 text-violet-600" />
           </div>
@@ -48,9 +48,9 @@ export function Navbar() {
           <Link
             href="/credentials"
             target="_blank"
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-50 border border-amber-200 text-[10px] font-black uppercase tracking-widest text-amber-600 hover:bg-amber-100 transition-all shadow-sm shadow-amber-100 group"
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-50 border border-amber-200 text-[10px] font-black uppercase tracking-widest text-amber-600 hover:bg-amber-100 transition-all duration-300 shadow-sm shadow-amber-100 group"
           >
-            <ShieldCheck className="h-3 w-3 group-hover:rotate-12 transition-transform" />
+            <ShieldCheck className="h-3 w-3 group-hover:rotate-12 transition-transform duration-300 ease-out" />
             Admin Access
             <span className="flex h-1.5 w-1.5 rounded-full bg-amber-500 animate-pulse"></span>
           </Link>

@@ -198,7 +198,7 @@ export function EnvironmentsGallery() {
                     alt={env.title}
                     fill
                     sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 600px"
-                    className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-110"
+                    className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-105"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/25 to-transparent z-10" />
 
