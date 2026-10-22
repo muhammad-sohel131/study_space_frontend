@@ -151,6 +151,11 @@ export const GET_ALL_BOOKINGS = gql`
           name
           location
         }
+        user {
+          id
+          name
+          email
+        }
       }
       totalCount
       totalPages

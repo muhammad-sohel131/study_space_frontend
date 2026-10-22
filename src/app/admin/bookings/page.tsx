@@ -54,12 +54,16 @@ export default function AllBookings() {
                 <tr key={booking.id} className="hover:bg-slate-50 transition-colors">
                   <td className="px-6 py-5">
                     <div className="flex items-center gap-3">
-                      <div className="h-10 w-10 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600 font-bold">
-                        <User className="h-5 w-5" />
+                      <div className="h-10 w-10 rounded-full bg-indigo-50 border border-indigo-100 flex items-center justify-center text-indigo-600 font-bold text-sm shrink-0 shadow-sm">
+                        {booking.user?.name ? booking.user.name[0].toUpperCase() : <User className="h-5 w-5" />}
                       </div>
-                      <div>
-                        <p className="text-sm font-bold text-slate-900">User #{booking.id.substring(0, 5)}</p>
-                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">ID: {booking.id}</p>
+                      <div className="min-w-0">
+                        <p className="text-sm font-bold text-slate-900 truncate">
+                          {booking.user?.name || `User #${booking.id.substring(0, 5)}`}
+                        </p>
+                        <p className="text-[11px] font-medium text-slate-400 truncate">
+                          {booking.user?.email || `ID: ${booking.id}`}
+                        </p>
                       </div>
                     </div>
                   </td>
