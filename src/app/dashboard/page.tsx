@@ -3,10 +3,10 @@
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { format, isAfter, isBefore, addHours, differenceInMinutes } from 'date-fns';
 import { graphqlClient } from '@/lib/graphqlClient';
-import { GET_MY_BOOKINGS, GET_MY_ORDERS } from '@/graphql/queries';
-import { CREATE_BOOKING, INIT_PAYMENT, CANCEL_BOOKING } from '@/graphql/mutations';
+import { GET_MY_BOOKINGS, GET_MY_ORDERS, GET_MY_BORROWS } from '@/graphql/queries';
+import { CREATE_BOOKING, INIT_PAYMENT, CANCEL_BOOKING, RETURN_BOOK } from '@/graphql/mutations';
 import { Card } from '@/components/ui/Card';
-import { CalendarDays, Clock, MapPin, Armchair, ChevronRight, LogOut, RefreshCw, CheckCircle2, Timer, Sparkles, CreditCard, XCircle, Book as BookIcon, Download } from 'lucide-react';
+import { CalendarDays, Clock, MapPin, Armchair, ChevronRight, LogOut, RefreshCw, CheckCircle2, Timer, Sparkles, CreditCard, XCircle, Book as BookIcon, Download, BookmarkCheck, ArrowRight, AlertTriangle, Bed } from 'lucide-react';
 import { useAuthStore } from '@/store/useAuthStore';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState, useMemo } from 'react';
@@ -22,10 +22,13 @@ import { Pagination } from '@/components/ui/Pagination';
 interface Booking {
   id: string;
   centerId: string;
-  seatId: string;
+  seatId?: string;
   startTime: string;
   endTime: string;
   bookingType: string;
+  stayNights?: number;
+  roomType?: string;
+  guestsCount?: number;
   totalPrice: number;
   paymentStatus: string;
   status: string;
@@ -90,6 +93,26 @@ export default function DashboardPage() {
       return response.myOrders;
     },
     enabled: !!user,
+  });
+
+  const { data: myBorrows, isLoading: loadingBorrows, refetch: refetchBorrows } = useQuery({
+    queryKey: ['myBorrows'],
+    queryFn: async () => {
+      const response = await graphqlClient.request<{ myBorrows: any[] }>(GET_MY_BORROWS);
+      return response.myBorrows;
+    },
+    enabled: !!user,
+  });
+
+  const returnBookMutation = useMutation({
+    mutationFn: async (borrowId: string) => graphqlClient.request<{ returnBook: any }>(RETURN_BOOK, { borrowId }),
+    onSuccess: () => {
+      toast.success('Book returned successfully! Thank you.');
+      refetchBorrows();
+    },
+    onError: (err: any) => {
+      toast.error(err.response?.errors?.[0]?.message || 'Failed to return book');
+    }
   });
 
   const initPaymentMutation = useMutation({
@@ -212,27 +235,52 @@ export default function DashboardPage() {
                     <div className="flex items-center justify-between p-4 rounded-2xl bg-slate-50 border border-slate-100">
                       <div className="flex items-center gap-3">
                         <div className="h-12 w-12 rounded-xl bg-white border border-slate-200 flex items-center justify-center shadow-sm">
-                          <Armchair className="h-6 w-6 text-indigo-500" />
+                          {booking.bookingType === 'stay' ? (
+                            <Bed className="h-6 w-6 text-emerald-600" />
+                          ) : (
+                            <Armchair className="h-6 w-6 text-indigo-500" />
+                          )}
                         </div>
                         <div>
-                          <p className="text-[10px] text-slate-400 font-black uppercase tracking-tighter">Unit Number</p>
-                          <p className="text-lg font-black text-slate-900 leading-none">{booking.seat?.seatNumber}</p>
+                          <p className="text-[10px] text-slate-400 font-black uppercase tracking-tighter">
+                            {booking.bookingType === 'stay' ? 'Overnight Stay Accommodation' : 'Unit Number'}
+                          </p>
+                          <p className="text-base font-black text-slate-900 leading-snug">
+                            {booking.bookingType === 'stay'
+                              ? `${booking.roomType || 'Study Pod'}${booking.seat?.seatNumber ? ` • Desk ${booking.seat.seatNumber}` : ''}`
+                              : booking.seat?.seatNumber || 'Standard'}
+                          </p>
                         </div>
                       </div>
-                      <Badge variant="outline" className="text-[10px] uppercase font-black tracking-widest bg-white border-slate-200">{booking.bookingType}</Badge>
+                      <Badge
+                        variant={booking.bookingType === 'stay' ? 'success' : 'outline'}
+                        className={`text-[10px] uppercase font-black tracking-widest ${
+                          booking.bookingType === 'stay'
+                            ? 'bg-emerald-100 text-emerald-800 border-emerald-200'
+                            : 'bg-white border-slate-200'
+                        }`}
+                      >
+                        {booking.bookingType === 'stay' ? `Stay (${booking.stayNights || 1}N)` : booking.bookingType}
+                      </Badge>
                     </div>
                     <div className="grid grid-cols-2 gap-6 px-2">
                       <div className="space-y-1.5">
                         <div className="flex items-center text-[10px] text-slate-400 font-black uppercase tracking-widest">
-                          <Clock className="h-3 w-3 mr-1.5 text-emerald-500" />Arrival
+                          <Clock className="h-3 w-3 mr-1.5 text-emerald-500" />
+                          {booking.bookingType === 'stay' ? 'Check-in' : 'Arrival'}
                         </div>
-                        <p className="text-xs font-black text-slate-700">{format(new Date(booking.startTime), 'MMM d, h:mm a')}</p>
+                        <p className="text-xs font-black text-slate-700">
+                          {format(new Date(booking.startTime), 'MMM d, h:mm a')}
+                        </p>
                       </div>
                       <div className="space-y-1.5">
                         <div className="flex items-center text-[10px] text-slate-400 font-black uppercase tracking-widest">
-                          <Clock className="h-3 w-3 mr-1.5 text-rose-500" />Departure
+                          <Clock className="h-3 w-3 mr-1.5 text-rose-500" />
+                          {booking.bookingType === 'stay' ? 'Check-out' : 'Departure'}
                         </div>
-                        <p className="text-xs font-black text-slate-700">{format(new Date(booking.endTime), 'MMM d, h:mm a')}</p>
+                        <p className="text-xs font-black text-slate-700">
+                          {format(new Date(booking.endTime), 'MMM d, h:mm a')}
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -328,6 +376,119 @@ export default function DashboardPage() {
     </div>
   );
 
+  const borrowedBooksContent = (
+    <div className="mt-8">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+        <div>
+          <h2 className="text-xl font-bold text-slate-900">Active & Returned Borrowed Books</h2>
+          <p className="text-sm text-slate-500">Pick up physical textbooks at your study hub desk. Return on time to keep library perks active.</p>
+        </div>
+        <Link href="/library">
+          <Button variant="outline" size="sm" className="border-violet-300 text-violet-700 hover:bg-violet-50 font-bold shrink-0">
+            <BookIcon className="w-4 h-4 mr-1.5" />
+            Borrow More Books
+          </Button>
+        </Link>
+      </div>
+
+      {loadingBorrows ? (
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {[1, 2, 3].map(i => <Skeleton key={i} className="h-64 w-full rounded-2xl" />)}
+        </div>
+      ) : !myBorrows || myBorrows.length === 0 ? (
+        <div className="text-center py-16 bg-white rounded-3xl border border-slate-200/80 p-8 shadow-sm">
+          <div className="text-5xl mb-3">📖</div>
+          <h3 className="text-lg font-bold text-slate-900 mb-1">No Borrowed Books Currently</h3>
+          <p className="text-sm text-slate-500 max-w-md mx-auto mb-6">
+            As a registered StudySpace learner, you can borrow any available physical textbook for your study sessions completely free of charge!
+          </p>
+          <Link href="/library">
+            <Button className="bg-violet-600 hover:bg-violet-700 text-white font-bold">
+              Browse Library & Borrow Books
+            </Button>
+          </Link>
+        </div>
+      ) : (
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {myBorrows.map((borrow: any) => {
+            const isReturned = borrow.status === 'returned';
+            const isOverdue = borrow.status === 'overdue' || (!isReturned && new Date(borrow.dueDate) < new Date());
+
+            return (
+              <Card key={borrow.id} className="overflow-hidden bg-white border-slate-200 hover:shadow-xl transition-all rounded-3xl flex flex-col justify-between">
+                <div>
+                  <div className="relative h-48 bg-gradient-to-br from-violet-100 via-slate-100 to-indigo-50 flex items-center justify-center overflow-hidden">
+                    {borrow.book?.coverImageUrl ? (
+                      <img src={borrow.book.coverImageUrl} alt={borrow.book?.title} className="w-full h-full object-cover" />
+                    ) : (
+                      <div className="text-center p-4">
+                        <BookIcon className="w-12 h-12 text-violet-400 mx-auto mb-2" />
+                        <p className="text-xs text-violet-700 font-semibold">{borrow.book?.title}</p>
+                      </div>
+                    )}
+                    <Badge
+                      variant={isReturned ? 'secondary' : isOverdue ? 'danger' : 'success'}
+                      className="absolute top-3 left-3 uppercase tracking-wider text-[10px] font-bold"
+                    >
+                      {isReturned ? 'Returned' : isOverdue ? 'Overdue' : 'Active Borrow'}
+                    </Badge>
+                  </div>
+
+                  <div className="p-5">
+                    <h3 className="font-bold text-slate-900 text-lg line-clamp-2 mb-1">{borrow.book?.title}</h3>
+                    <p className="text-xs text-slate-500 mb-4">by {borrow.book?.author}</p>
+
+                    <div className="space-y-2 text-xs text-slate-600 p-3 bg-slate-50 rounded-xl mb-4">
+                      <div className="flex justify-between">
+                        <span className="text-slate-400 font-medium">Pickup Center:</span>
+                        <span className="font-bold text-slate-800">{borrow.center?.name || 'Main Study Hub'}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-slate-400 font-medium">Borrowed On:</span>
+                        <span className="font-semibold text-slate-800">{format(new Date(borrow.borrowDate), 'dd MMM yyyy')}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-slate-400 font-medium">Return Due Date:</span>
+                        <span className={`font-bold ${isOverdue ? 'text-rose-600' : 'text-violet-700'}`}>
+                          {format(new Date(borrow.dueDate), 'dd MMM yyyy')}
+                        </span>
+                      </div>
+                      {borrow.returnDate && (
+                        <div className="flex justify-between pt-1 border-t border-slate-200">
+                          <span className="text-emerald-600 font-medium">Returned On:</span>
+                          <span className="font-bold text-emerald-700">{format(new Date(borrow.returnDate), 'dd MMM yyyy')}</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="p-5 pt-0">
+                  {!isReturned ? (
+                    <Button
+                      onClick={() => returnBookMutation.mutate(borrow.id)}
+                      disabled={returnBookMutation.isPending}
+                      className="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-bold h-11 rounded-xl flex items-center justify-center gap-2"
+                    >
+                      <CheckCircle2 className="w-4 h-4" />
+                      <span>{returnBookMutation.isPending ? 'Processing...' : 'Return Book (ফেরত দিন)'}</span>
+                    </Button>
+                  ) : (
+                    <Link href="/library" className="block w-full">
+                      <Button variant="outline" className="w-full font-bold h-11 rounded-xl text-slate-600 hover:bg-slate-100">
+                        Borrow Again
+                      </Button>
+                    </Link>
+                  )}
+                </div>
+              </Card>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+
   return (
     <div className="flex-1 bg-slate-50 min-h-screen pb-20">
       <div className="bg-white border-b border-slate-200 pt-12 pb-12">
@@ -339,7 +500,7 @@ export default function DashboardPage() {
             </div>
             <div className="flex flex-wrap items-center gap-4">
               <Link href="/" className="inline-flex items-center gap-2 px-4 py-3 rounded-xl font-bold text-slate-600 hover:bg-slate-100 transition-all">Home</Link>
-              <Link href="/library" className="inline-flex items-center gap-2 px-4 py-3 rounded-xl font-bold text-slate-600 hover:bg-slate-100 transition-all">Shop Books</Link>
+              <Link href="/library" className="inline-flex items-center gap-2 px-4 py-3 rounded-xl font-bold text-slate-600 hover:bg-slate-100 transition-all">Library & Books</Link>
               <button onClick={() => { logout(); router.push('/login'); }} className="inline-flex items-center gap-2 px-4 py-3 rounded-xl font-bold text-red-600 hover:bg-red-50 transition-all">
                 <LogOut className="h-5 w-5" /> Sign Out
               </button>
@@ -352,7 +513,8 @@ export default function DashboardPage() {
         <Tabs
           items={[
             { label: 'Seat Bookings', value: 'seats', icon: <Armchair className="w-4 h-4" />, content: seatBookingsContent },
-            { label: 'My Library', value: 'library', icon: <BookIcon className="w-4 h-4" />, content: libraryContent },
+            { label: 'Borrowed Books', value: 'borrows', icon: <BookmarkCheck className="w-4 h-4" />, content: borrowedBooksContent },
+            { label: 'My Purchased Library', value: 'library', icon: <BookIcon className="w-4 h-4" />, content: libraryContent },
           ]}
         />
       </div>

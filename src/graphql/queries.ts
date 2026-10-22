@@ -10,6 +10,11 @@ export const GET_CENTERS = gql`
         openingTime
         closingTime
         coverImage
+        hasStayFacility
+        stayPricePerNight
+        stayAmenities
+        availableStayBeds
+        stayRules
       }
       totalCount
       totalPages
@@ -26,6 +31,11 @@ export const GET_CENTER = gql`
       openingTime
       closingTime
       coverImage
+      hasStayFacility
+      stayPricePerNight
+      stayAmenities
+      availableStayBeds
+      stayRules
     }
   }
 `;
@@ -88,6 +98,9 @@ export const GET_MY_BOOKINGS = gql`
         startTime
         endTime
         bookingType
+        stayNights
+        roomType
+        guestsCount
         totalPrice
         paymentStatus
         status
@@ -98,6 +111,8 @@ export const GET_MY_BOOKINGS = gql`
           location
           openingTime
           closingTime
+          hasStayFacility
+          stayPricePerNight
         }
         seat {
           seatNumber
@@ -122,6 +137,9 @@ export const GET_ALL_BOOKINGS = gql`
         startTime
         endTime
         bookingType
+        stayNights
+        roomType
+        guestsCount
         totalPrice
         paymentStatus
         status
@@ -168,6 +186,11 @@ export const GET_BOOKS = gql`
         coverImageUrl
         previewPdfUrl
         fullPdfUrl
+        center {
+          id
+          name
+          location
+        }
       }
       totalCount
       totalPages
@@ -221,3 +244,93 @@ export const GET_ALL_ORDERS = gql`
     }
   }
 `;
+
+export const GET_MY_BORROWS = gql`
+  query GetMyBorrows {
+    myBorrows {
+      id
+      userId
+      bookId
+      centerId
+      borrowDate
+      dueDate
+      returnDate
+      durationDays
+      status
+      notes
+      book {
+        id
+        title
+        author
+        productType
+        price
+        coverImageUrl
+        previewPdfUrl
+        fullPdfUrl
+      }
+      center {
+        id
+        name
+        location
+      }
+    }
+  }
+`;
+
+export const GET_ALL_BORROWS = gql`
+  query GetAllBorrows {
+    allBorrows {
+      id
+      userId
+      bookId
+      centerId
+      borrowDate
+      dueDate
+      returnDate
+      durationDays
+      status
+      notes
+      book {
+        id
+        title
+        author
+        productType
+        coverImageUrl
+      }
+      center {
+        id
+        name
+        location
+      }
+      user {
+        id
+        name
+        email
+      }
+    }
+  }
+`;
+
+export const GET_STAY_AVAILABILITY = gql`
+  query GetStayAvailability($centerId: String!, $startTime: String!, $endTime: String!) {
+    stayAvailability(centerId: $centerId, startTime: $startTime, endTime: $endTime) {
+      totalBeds
+      bookedBeds
+      availableBeds
+      isAvailable
+      statusNote
+      roomTypeBreakdown {
+        roomType
+        totalBeds
+        bookedBeds
+        emptyBeds
+        isAvailable
+        bedUnits {
+          unitNumber
+          isBooked
+        }
+      }
+    }
+  }
+`;
+

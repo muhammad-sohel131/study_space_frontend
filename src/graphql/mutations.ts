@@ -37,6 +37,10 @@ export const CREATE_BOOKING = gql`
       startTime
       endTime
       bookingType
+      stayNights
+      roomType
+      bedUnit
+      guestsCount
       totalPrice
       paymentStatus
       status
@@ -185,3 +189,44 @@ export const MARK_ORDER_DELIVERED = gql`
     }
   }
 `;
+
+export const BORROW_BOOK = gql`
+  mutation BorrowBook($borrowBookInput: BorrowBookInput!) {
+    borrowBook(borrowBookInput: $borrowBookInput) {
+      id
+      userId
+      bookId
+      centerId
+      borrowDate
+      dueDate
+      returnDate
+      durationDays
+      status
+      notes
+      book {
+        id
+        title
+        author
+        coverImageUrl
+        productType
+        price
+      }
+      center {
+        id
+        name
+        location
+      }
+    }
+  }
+`;
+
+export const RETURN_BOOK = gql`
+  mutation ReturnBook($borrowId: String!) {
+    returnBook(borrowId: $borrowId) {
+      id
+      status
+      returnDate
+    }
+  }
+`;
+

@@ -18,26 +18,26 @@ const slides = [
   {
     id: 1,
     image: 'https://res.cloudinary.com/diwvm1tyg/image/upload/v1778246114/noisy-study-room_mrnz7v.jpg',
-    title: 'Study Anywhere Without Distractions',
-    description: 'Escape noisy shared rooms and crowded environments. Find a peaceful and comfortable study space designed for deep focus and productivity.',
+    title: 'Study Anywhere In Dhaka Without Distractions',
+    description: 'Escape noisy mess rooms, hostel chaos, and crowded coffee shops. Find a peaceful, air-conditioned study sanctuary with 100% generator backup.',
   },
   {
     id: 2,
     image: 'https://res.cloudinary.com/diwvm1tyg/image/upload/v1778246106/modern-study-space_hfttei.jpg',
-    title: 'Premium Quiet Study Environment',
-    description: 'Experience a calm, modern, and distraction-free study atmosphere with comfortable seating, elegant interiors, and a productivity-focused environment.',
+    title: 'Premium Quiet Study Environment In Bangladesh',
+    description: 'Experience a calm, modern, and distraction-free study atmosphere across Dhanmondi, Nilkhet, Uttara, Mirpur, Chittagong, and Sylhet.',
   },
   {
     id: 3,
     image: 'https://res.cloudinary.com/diwvm1tyg/image/upload/v1778246104/online-seat-booking_otl1uz.jpg',
-    title: 'Book Your Seat Online Instantly',
-    description: 'Check real-time seat availability, choose your preferred seat, and reserve your study space online within seconds from anywhere.',
+    title: 'Book Your Seat Online From ৳35/Hour',
+    description: 'Check real-time 2D/3D seat availability, choose your favorite silent pod, and reserve instantly via bKash or Nagad within seconds.',
   },
   {
     id: 4,
     image: 'https://res.cloudinary.com/diwvm1tyg/image/upload/v1778246112/productive-study-session_lvwude.jpg',
-    title: 'Boost Your Focus & Productivity',
-    description: 'Study smarter in a focused environment built for students, freelancers, and learners who want better concentration and efficient study sessions.',
+    title: 'Boost Your BCS & Academic Productivity',
+    description: 'Study smarter in a focused community built for BCS, Medical, BUET, and IBA aspirants who demand peak concentration and top results.',
   }
 ];
 
@@ -124,7 +124,7 @@ export function HeroSlider() {
                     style={{ animationDelay: '0.1s' }}
                   >
                     <span className="flex h-2 w-2 rounded-full bg-indigo-400 animate-pulse"></span>
-                    Premium Study Space
+                    Bangladesh&apos;s #1 Study Space Network
                   </div>
 
                   <h1 className="text-4xl sm:text-5xl lg:text-7xl font-bold text-white tracking-tight mb-6 leading-[1.1] flex flex-wrap">

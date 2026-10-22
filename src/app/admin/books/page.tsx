@@ -9,7 +9,7 @@ import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Modal } from '@/components/ui/Modal';
-import { Plus, Edit2, Trash2, Image as ImageIcon, Loader2, Book as BookIcon } from 'lucide-react';
+import { Plus, Edit2, Trash2, Image as ImageIcon, Loader2, Book as BookIcon, MapPin } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { uploadToCloudinary } from '@/lib/cloudinary';
 import { Pagination } from '@/components/ui/Pagination';
@@ -166,7 +166,14 @@ export default function ManageBooks() {
               <h3 className="text-lg font-black text-slate-900 mb-1 group-hover:text-indigo-600 transition-colors">
                 {book.title}
               </h3>
-              <p className="text-sm font-medium text-slate-500 mb-4">By {book.author}</p>
+              <p className="text-sm font-medium text-slate-500 mb-2">By {book.author}</p>
+              
+              {book.center?.name && (
+                <div className="flex items-center gap-1.5 text-xs text-slate-500 mb-4 font-medium">
+                  <MapPin className="h-3.5 w-3.5 text-indigo-500 shrink-0" />
+                  <span>{book.center.name}</span>
+                </div>
+              )}
               
               <div className="flex justify-between items-center mb-6">
                 <span className="text-xs font-bold px-2 py-1 bg-slate-100 text-slate-600 rounded-md uppercase tracking-wider">

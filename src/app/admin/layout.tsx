@@ -15,7 +15,8 @@ import {
   Menu,
   X,
   Book,
-  Package
+  Package,
+  BookmarkCheck
 } from 'lucide-react';
 import { useState } from 'react';
 
@@ -44,6 +45,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { name: 'Seats', href: '/admin/seats', icon: Armchair },
     { name: 'Bookings', href: '/admin/bookings', icon: CalendarCheck },
     { name: 'Books', href: '/admin/books', icon: Book },
+    { name: 'Borrows', href: '/admin/borrows', icon: BookmarkCheck },
     { name: 'Orders', href: '/admin/orders', icon: Package },
     { name: 'Payments', href: '/admin/payments', icon: CreditCard },
   ];
