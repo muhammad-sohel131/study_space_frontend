@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 420" width="600" height="420">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4a044e" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#fbbf24" />
+      <stop offset="100%" stop-color="#f59e0b" />
+    </linearGradient>
+  </defs>
+
+  <!-- Book Base Background -->
+  <rect width="600" height="420" fill="url(#bgGrad)" rx="16" />
+
+  <!-- Subtle Pattern -->
+  <g opacity="0.04" stroke="#ffffff" stroke-width="1">
+    <line x1="0" y1="70" x2="600" y2="70" />
+    <line x1="0" y1="140" x2="600" y2="140" />
+    <line x1="0" y1="210" x2="600" y2="210" />
+    <line x1="0" y1="280" x2="600" y2="280" />
+    <line x1="0" y1="350" x2="600" y2="350" />
+  </g>
+
+  <!-- Left Spine Shading -->
+  <rect x="0" y="0" width="28" height="420" fill="#000000" opacity="0.28" rx="16 0 0 16" />
+  <line x1="28" y1="0" x2="28" y2="420" stroke="rgba(255,255,255,0.15)" stroke-width="2" />
+
+  <!-- Center Artwork / Icon Graphic (Clear of badges at y=140) -->
+  
+      <g transform="translate(300, 140)" stroke="#e879f9" stroke-width="2.5" fill="none" opacity="0.95">
+        <circle cx="-25" cy="-12" r="8" fill="#e879f9" />
+        <circle cx="25" cy="-12" r="8" fill="#e879f9" />
+        <circle cx="-32" cy="12" r="8" fill="#e879f9" />
+        <circle cx="32" cy="12" r="8" fill="#e879f9" />
+        <circle cx="0" cy="-32" r="9" fill="#e879f9" />
+        <circle cx="0" cy="30" r="9" fill="#e879f9" />
+        <circle cx="0" cy="0" r="12" fill="white" stroke="#e879f9" stroke-width="3" />
+        <line x1="0" y1="0" x2="-25" y2="-12" stroke-width="2" />
+        <line x1="0" y1="0" x2="25" y2="-12" stroke-width="2" />
+        <line x1="0" y1="0" x2="-32" y2="12" stroke-width="2" />
+        <line x1="0" y1="0" x2="32" y2="12" stroke-width="2" />
+        <line x1="0" y1="0" x2="0" y2="-32" stroke-width="2" />
+        <line x1="0" y1="0" x2="0" y2="30" stroke-width="2" />
+      </g>
+
+  <!-- Title Area (Positioned safely below badges at y=235) -->
+  <g transform="translate(300, 230)" text-anchor="middle">
+    <text x="0" y="0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="22" font-weight="900" fill="#ffffff" letter-spacing="-0.3">
+      Hands-On Machine Learning ...
+    </text>
+    <text x="0" y="24" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="12" font-weight="600" fill="rgba(255,255,255,0.8)" letter-spacing="0.3">
+      Deep Learning, Computer Vision &amp; NLP Models
+    </text>
+    <line x1="-80" y1="36" x2="80" y2="36" stroke="#e879f9" stroke-width="2" stroke-linecap="round" />
+  </g>
+
+  <!-- Author Strip -->
+  <g transform="translate(300, 310)" text-anchor="middle">
+    <text x="0" y="0" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="11" font-weight="700" fill="rgba(255,255,255,0.65)" letter-spacing="1" text-transform="uppercase">
+      Authored By: <tspan fill="#ffffff" font-weight="800">Aurélien Géron</tspan>
+    </text>
+  </g>
+
+  <!-- Footer Bar -->
+  <g transform="translate(45, 355)">
+    <rect x="0" y="0" width="510" height="45" rx="8" fill="rgba(0,0,0,0.35)" stroke="rgba(255,255,255,0.1)" />
+    
+    <!-- Barcode simulation -->
+    <g transform="translate(18, 9)" stroke="#ffffff" stroke-width="1.5" opacity="0.8">
+      <line x1="0" y1="0" x2="0" y2="26" stroke-width="2.5" />
+      <line x1="4" y1="0" x2="4" y2="26" stroke-width="1" />
+      <line x1="8" y1="0" x2="8" y2="26" stroke-width="3" />
+      <line x1="14" y1="0" x2="14" y2="26" stroke-width="1.5" />
+      <line x1="20" y1="0" x2="20" y2="26" stroke-width="2.5" />
+      <line x1="26" y1="0" x2="26" y2="26" stroke-width="1" />
+      <line x1="32" y1="0" x2="32" y2="26" stroke-width="2.5" />
+      <line x1="38" y1="0" x2="38" y2="26" stroke-width="1" />
+      <line x1="44" y1="0" x2="44" y2="26" stroke-width="2.5" />
+      <line x1="50" y1="0" x2="50" y2="26" stroke-width="2" />
+    </g>
+
+    <!-- Official Library Stamp text -->
+    <text x="495" y="21" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="9" font-weight="800" fill="#e879f9" text-anchor="end" letter-spacing="1">
+      AI &amp; PYTORCH • OFFICIAL REFERENCE
+    </text>
+    <text x="495" y="34" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="8" font-weight="600" fill="rgba(255,255,255,0.6)" text-anchor="end">
+      CHATTOGRAM HUB • STUDY &amp; STAY COLLECTION
+    </text>
+  </g>
+</svg>

@@ -57,7 +57,7 @@ export default function LibraryPage() {
   const [borrowingBook, setBorrowingBook] = useState<BookItem | null>(null);
 
   const [page, setPage] = useState(1);
-  const limit = 12;
+  const limit = 18;
 
   // Fetch Centers
   const { data: centersData } = useQuery({
