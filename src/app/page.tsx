@@ -1,5 +1,4 @@
 import { HeroSlider } from '@/components/home/HeroSlider';
-import { QuickStatsBar } from '@/components/home/QuickStatsBar';
 import { EnvironmentsGallery } from '@/components/home/EnvironmentsGallery';
 import { ExperienceShowcase } from '@/components/home/ExperienceShowcase';
 import { CoreOfferingsDark } from '@/components/home/CoreOfferingsDark';
@@ -14,10 +13,7 @@ export default function Home() {
             {/* 1. Hero Slider with interactive slides */}
             <HeroSlider />
 
-            {/* 2. Floating Live Activity & Quick Stats Bar */}
-            <QuickStatsBar />
-
-            {/* 3. Photographic Study Environments Gallery (Interactive Filter Tabs) */}
+            {/* 2. Photographic Study Environments Gallery (Interactive Filter Tabs) */}
             <EnvironmentsGallery />
 
             {/* 4. Panoramic Ambiance & Cognitive Focus Showcase */}
