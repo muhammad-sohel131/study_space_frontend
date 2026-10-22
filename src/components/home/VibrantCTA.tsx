@@ -61,10 +61,10 @@ export function VibrantCTA() {
           <Link href="/centers" className="w-full sm:w-auto">
             <Button
               size="lg"
-              className="w-full sm:w-auto h-14 px-8 bg-white hover:bg-slate-100 text-violet-900 font-bold rounded-2xl text-base shadow-2xl shadow-violet-900/50 hover:scale-105 transition-all duration-300"
+              className="w-full sm:w-auto h-14 px-8 !bg-white hover:!bg-slate-100 !text-violet-950 font-extrabold rounded-2xl text-base shadow-2xl shadow-violet-900/50 hover:scale-105 transition-all duration-300"
             >
-              <span>Book Seat or Overnight Stay</span>
-              <ArrowRight className="ml-2 w-5 h-5 text-violet-700" />
+              <span className="text-violet-950 font-extrabold">Book Seat or Overnight Stay</span>
+              <ArrowRight className="ml-2 w-5 h-5 text-violet-700 stroke-[2.5]" />
             </Button>
           </Link>
           <Link href="/library" className="w-full sm:w-auto">
