@@ -400,11 +400,11 @@ export default function DashboardPage() {
           <div className="text-5xl mb-3">📖</div>
           <h3 className="text-lg font-bold text-slate-900 mb-1">No Borrowed Books Currently</h3>
           <p className="text-sm text-slate-500 max-w-md mx-auto mb-6">
-            As a registered StudySpace learner, you can borrow any available physical textbook for your study sessions completely free of charge!
+            As a registered StudySpace learner, you can rent and borrow any available physical textbook for your study sessions starting at only ৳15/day!
           </p>
           <Link href="/library">
             <Button className="bg-violet-600 hover:bg-violet-700 text-white font-bold">
-              Browse Library & Borrow Books
+              Browse Library & Rent Books
             </Button>
           </Link>
         </div>
@@ -413,6 +413,7 @@ export default function DashboardPage() {
           {myBorrows.map((borrow: any) => {
             const isReturned = borrow.status === 'returned';
             const isOverdue = borrow.status === 'overdue' || (!isReturned && new Date(borrow.dueDate) < new Date());
+            const rentalCost = borrow.totalCost ?? ((borrow.durationDays || 7) * (borrow.pricePerDay || 15));
 
             return (
               <Card key={borrow.id} className="overflow-hidden bg-white border-slate-200 hover:shadow-xl transition-all rounded-3xl flex flex-col justify-between">
@@ -442,6 +443,16 @@ export default function DashboardPage() {
                       <div className="flex justify-between">
                         <span className="text-slate-400 font-medium">Pickup Center:</span>
                         <span className="font-bold text-slate-800">{borrow.center?.name || 'Main Study Hub'}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-slate-400 font-medium">Rental Duration:</span>
+                        <span className="font-semibold text-slate-800">{borrow.durationDays || 7} Days</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-slate-400 font-medium">Rental Fee:</span>
+                        <span className="font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                          ৳{rentalCost} (PAID)
+                        </span>
                       </div>
                       <div className="flex justify-between">
                         <span className="text-slate-400 font-medium">Borrowed On:</span>

@@ -31,6 +31,7 @@ interface BookItem {
   author: string;
   productType: string;
   price: number;
+  borrowPricePerDay?: number;
   stock: number;
   rating?: number;
   reviews?: number;
@@ -195,26 +196,26 @@ export default function LibraryPage() {
       {/* Feature Highlight Banner */}
       <div className="mb-10 bg-gradient-to-r from-violet-900 via-indigo-900 to-slate-900 text-white rounded-3xl p-6 sm:p-8 shadow-xl relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-6">
         <div className="relative z-10 max-w-2xl">
-          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-xs font-bold uppercase tracking-wider mb-3 border border-emerald-500/30">
+          <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-violet-500/20 text-violet-300 text-xs font-bold uppercase tracking-wider mb-3 border border-violet-500/30">
             <Sparkles className="w-3.5 h-3.5" />
-            Dual Access Feature
+            Affordable Rental & Purchase
           </span>
           <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight mb-2">
-            Borrow for Free or Buy to Keep
+            Rent per Day or Buy to Keep
           </h2>
           <p className="text-sm sm:text-base text-violet-200 leading-relaxed">
-            Registered students can borrow any available physical book from our study center shelf for 3 to 30 days without purchase fees. Need permanent access? Buy it directly and take it home!
+            Borrow physical textbooks from your center shelf for flexible durations starting at only ৳15/day. Need permanent access? Buy copies directly to keep and study anywhere!
           </p>
         </div>
 
         <div className="relative z-10 flex flex-col sm:flex-row gap-3 w-full md:w-auto">
           <div className="bg-white/10 backdrop-blur-md px-4 py-3 rounded-2xl border border-white/20 text-center">
-            <div className="text-xl font-black text-emerald-400">10,000+</div>
+            <div className="text-xl font-black text-violet-300">10,000+</div>
             <div className="text-xs text-violet-200">Curated Textbooks</div>
           </div>
           <div className="bg-white/10 backdrop-blur-md px-4 py-3 rounded-2xl border border-white/20 text-center">
-            <div className="text-xl font-black text-cyan-400">৳0 Fee</div>
-            <div className="text-xs text-violet-200">Student Borrowing</div>
+            <div className="text-xl font-black text-amber-400">From ৳15/day</div>
+            <div className="text-xs text-violet-200">Flexible Rental</div>
           </div>
         </div>
 
@@ -368,6 +369,7 @@ export default function LibraryPage() {
               title={book.title}
               author={book.author}
               price={book.price}
+              borrowPricePerDay={book.borrowPricePerDay || 15}
               productType={book.productType || 'physical'}
               rating={book.rating || 0}
               reviews={book.reviews || 0}

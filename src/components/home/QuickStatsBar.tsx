@@ -36,7 +36,7 @@ const stats = [
     icon: BookOpen,
     value: 'Dual Access',
     label: 'Academic Book Bank',
-    sublabel: 'Free physical textbook borrowing & instant PDF previews',
+    sublabel: 'Affordable textbook rentals & instant PDF previews',
     gradient: 'from-amber-500 to-orange-500',
     iconBg: 'bg-amber-500/10 text-amber-600',
     borderColor: 'hover:border-amber-300',

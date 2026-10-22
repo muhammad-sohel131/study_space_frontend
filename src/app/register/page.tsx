@@ -96,7 +96,7 @@ export default function RegisterPage() {
                         {[
                             'Interactive floor plan seat selection from ৳35/hour',
                             'Overnight Study & Stay pods with live empty bed tracking',
-                            'Free academic textbook borrowing & digital PDF previews',
+                            'Affordable textbook borrowing from ৳15/day & PDF previews',
                             '100% automated generator backup & 1 Gbps BDIX fiber Wi-Fi',
                         ].map((perk, idx) => (
                             <div key={idx} className="flex items-center gap-3 text-xs sm:text-sm text-slate-200">

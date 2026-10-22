@@ -33,7 +33,7 @@ export function Modal({
  <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
  <div className={`bg-white rounded-2xl shadow-2xl ${sizes[size]} w-full mx-4 max-h-[90vh] overflow-y-auto`}>
  {/* Header */}
- <div className="sticky top-0 flex items-center justify-between border-b border-slate-200 p-6">
+ <div className="sticky top-0 z-10 bg-white flex items-center justify-between border-b border-slate-200 p-6">
  <div>
  <h2 className="text-2xl font-bold text-slate-900">{title}</h2>
  {description && <p className="mt-1 text-sm text-slate-600">{description}</p>}

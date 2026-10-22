@@ -8,6 +8,7 @@ interface BookCardProps {
   title: string;
   author: string;
   price: number;
+  borrowPricePerDay?: number;
   productType: string;
   rating?: number;
   reviews?: number;
@@ -30,6 +31,7 @@ export function BookCard({
   title,
   author,
   price,
+  borrowPricePerDay = 15,
   productType,
   rating = 0,
   reviews = 0,
@@ -132,9 +134,9 @@ export function BookCard({
             </div>
             {isPhysical && (
               <div className="text-right">
-                <span className="text-xs text-slate-500 block">To Borrow</span>
-                <span className="text-xs font-bold text-emerald-700 bg-emerald-50 px-2 py-1 rounded-md border border-emerald-200 inline-block">
-                  Free with Pass
+                <span className="text-xs text-slate-500 block">Rent to Read</span>
+                <span className="text-xs font-bold text-violet-700 bg-violet-50 px-2.5 py-1 rounded-md border border-violet-200 inline-block">
+                  ৳{borrowPricePerDay}/day
                 </span>
               </div>
             )}
@@ -151,7 +153,7 @@ export function BookCard({
                 className="w-full border-violet-500 text-violet-700 hover:bg-violet-50 font-bold h-10 flex items-center justify-center gap-1.5"
               >
                 <BookOpen size={16} />
-                <span>Borrow Book (Free)</span>
+                <span>Rent / Borrow (৳{borrowPricePerDay}/day)</span>
               </Button>
             )}
 

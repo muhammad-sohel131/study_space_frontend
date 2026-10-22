@@ -59,10 +59,10 @@ const environments = [
     badge: 'Curated Academic Books & PDFs',
     badgeColor: 'bg-emerald-500/10 text-emerald-700 border-emerald-200',
     noiseLevel: 'Library Ambiance',
-    priceTag: 'Free Borrowing for Members',
+    priceTag: 'Rental from ৳15/day',
     amenities: [
       'Comprehensive BCS, Medical, Engineering & IBA textbooks',
-      'Dual option: Free physical borrowing or purchase copies',
+      'Dual option: Affordable daily rental or purchase to keep',
       'Instant in-browser PDF preview before reserving',
       'On-site center pickup & return facility',
     ],

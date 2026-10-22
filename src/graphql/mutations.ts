@@ -201,6 +201,9 @@ export const BORROW_BOOK = gql`
       dueDate
       returnDate
       durationDays
+      pricePerDay
+      totalCost
+      paymentStatus
       status
       notes
       book {
@@ -210,6 +213,7 @@ export const BORROW_BOOK = gql`
         coverImageUrl
         productType
         price
+        borrowPricePerDay
       }
       center {
         id

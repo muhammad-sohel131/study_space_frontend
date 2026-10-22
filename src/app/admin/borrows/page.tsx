@@ -55,13 +55,15 @@ export default function AdminBorrows() {
   }, [borrows, filter, search]);
 
   const stats = useMemo(() => {
-    if (!borrows) return { total: 0, active: 0, returned: 0, overdue: 0 };
+    if (!borrows) return { total: 0, active: 0, returned: 0, overdue: 0, revenue: 0 };
     const now = new Date();
+    const rev = borrows.reduce((sum, b) => sum + (b.totalCost ?? ((b.durationDays || 7) * (b.pricePerDay || 15))), 0);
     return {
       total: borrows.length,
       active: borrows.filter((b) => b.status !== 'returned').length,
       returned: borrows.filter((b) => b.status === 'returned').length,
       overdue: borrows.filter((b) => b.status === 'overdue' || (b.status !== 'returned' && new Date(b.dueDate) < now)).length,
+      revenue: rev,
     };
   }, [borrows]);
 
@@ -71,7 +73,7 @@ export default function AdminBorrows() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h2 className="text-2xl font-black text-slate-900 tracking-tight">Book Borrowing & Returns</h2>
-          <p className="text-slate-500 font-medium">Track all loaned physical books, check due dates, and mark returns.</p>
+          <p className="text-slate-500 font-medium">Track all loaned physical books, rental payments, due dates, and mark returns.</p>
         </div>
       </div>
 
@@ -86,8 +88,8 @@ export default function AdminBorrows() {
           <div className="text-2xl font-black text-indigo-600 mt-1">{stats.active}</div>
         </div>
         <div className="bg-white p-5 rounded-2xl border border-emerald-200 shadow-sm">
-          <div className="text-xs font-bold uppercase tracking-wider text-emerald-600">Returned</div>
-          <div className="text-2xl font-black text-emerald-600 mt-1">{stats.returned}</div>
+          <div className="text-xs font-bold uppercase tracking-wider text-emerald-600">Total Rental Revenue</div>
+          <div className="text-2xl font-black text-emerald-600 mt-1">৳{stats.revenue}</div>
         </div>
         <div className="bg-white p-5 rounded-2xl border border-rose-200 shadow-sm">
           <div className="text-xs font-bold uppercase tracking-wider text-rose-600">Overdue Loans</div>
@@ -175,6 +177,10 @@ export default function AdminBorrows() {
                     </div>
 
                     <div className="flex items-center gap-4 text-xs text-slate-600 pt-1 flex-wrap">
+                      <span>Duration: <strong>{borrow.durationDays || 7} Days</strong></span>
+                      <span className="font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">
+                        Fee: ৳{borrow.totalCost ?? ((borrow.durationDays || 7) * (borrow.pricePerDay || 15))} ({borrow.paymentStatus || 'PAID'})
+                      </span>
                       <span>Borrowed: <strong>{format(new Date(borrow.borrowDate), 'dd MMM yyyy')}</strong></span>
                       <span>Due: <strong className={isOverdue ? 'text-rose-600 font-bold' : 'text-slate-800'}>{format(new Date(borrow.dueDate), 'dd MMM yyyy')}</strong></span>
                       {borrow.returnDate && (

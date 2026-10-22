@@ -182,6 +182,7 @@ export const GET_BOOKS = gql`
         author
         productType
         price
+        borrowPricePerDay
         stock
         coverImageUrl
         previewPdfUrl
@@ -256,6 +257,9 @@ export const GET_MY_BORROWS = gql`
       dueDate
       returnDate
       durationDays
+      pricePerDay
+      totalCost
+      paymentStatus
       status
       notes
       book {
@@ -264,6 +268,7 @@ export const GET_MY_BORROWS = gql`
         author
         productType
         price
+        borrowPricePerDay
         coverImageUrl
         previewPdfUrl
         fullPdfUrl
@@ -288,6 +293,9 @@ export const GET_ALL_BORROWS = gql`
       dueDate
       returnDate
       durationDays
+      pricePerDay
+      totalCost
+      paymentStatus
       status
       notes
       book {
@@ -295,6 +303,7 @@ export const GET_ALL_BORROWS = gql`
         title
         author
         productType
+        borrowPricePerDay
         coverImageUrl
       }
       center {
