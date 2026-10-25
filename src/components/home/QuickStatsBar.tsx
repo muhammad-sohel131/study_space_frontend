@@ -8,9 +8,9 @@ import { MapPin, Wifi, BookOpen, Star, Flame, Zap, Bed } from 'lucide-react';
 const stats = [
   {
     icon: MapPin,
-    value: '5',
+    value: '10',
     label: 'Premier Academic Hubs',
-    sublabel: 'Dhanmondi, Nilkhet (DU), Uttara, Mirpur & Chattogram',
+    sublabel: 'Dhaka, Chattogram, Sylhet, Rajshahi & Campus Zones',
     gradient: 'from-violet-500 to-indigo-500',
     iconBg: 'bg-violet-500/10 text-violet-600',
     borderColor: 'hover:border-violet-300',
@@ -64,7 +64,7 @@ export function QuickStatsBar() {
             <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
           </span>
           <span className="text-sm sm:text-base font-medium text-slate-200">
-            <strong className="text-emerald-400 font-semibold">140+ students</strong> currently studying live across Dhaka & Chattogram hubs
+            <strong className="text-emerald-400 font-semibold">280+ students</strong> currently studying live across 10 hubs nationwide
           </span>
         </div>
         <div className="flex items-center gap-3 flex-wrap">
