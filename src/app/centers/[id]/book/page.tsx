@@ -40,6 +40,7 @@ import {
   AlertCircle,
   Users,
   Activity,
+  Utensils,
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -163,25 +164,25 @@ export default function BookSeatPage() {
         id: 'Standard Study Pod',
         title: 'Standard Study Pod',
         tag: 'Most Popular',
-        desc: 'Private quiet sleeping pod + dedicated study desk + personal RFID locker.',
+        desc: 'Private quiet sleeping pod + dedicated study desk + personal RFID locker + Foods available.',
         price: base,
-        features: ['Sound-dampening pod', 'Dedicated 24/7 Desk', 'Hot Shower Access', 'Complimentary Morning Tea'],
+        features: ['Sound-dampening pod', 'Dedicated 24/7 Desk', 'Hot Shower Access', '+ Foods Available'],
       },
       {
         id: 'Executive Private Suite',
         title: 'Executive Private Suite',
         tag: 'Premium Focus',
-        desc: 'Fully private enclosed room with en-suite desk, ergonomic recliner, & natural light.',
+        desc: 'Fully private enclosed room with en-suite desk, ergonomic recliner, & natural light + Foods available.',
         price: Math.round(base * 1.35),
-        features: ['Private Enclosed Suite', 'Ergonomic Executive Chair', 'Private Attached Restroom', 'Priority High-Speed WiFi'],
+        features: ['Private Enclosed Suite', 'Ergonomic Executive Chair', 'Private Attached Restroom', '+ Foods Available'],
       },
       {
         id: 'Shared Scholar Dorm (Bunk)',
         title: 'Shared Scholar Dorm (Bunk)',
         tag: 'Budget Friendly',
-        desc: 'Cozy bunk bed in 4-pod silent study dorm with blackout curtains & reading lamp.',
+        desc: 'Cozy bunk bed in 4-pod silent study dorm with blackout curtains & reading lamp + Foods available.',
         price: Math.round(base * 0.8),
-        features: ['Blackout Privacy Curtain', 'Reading Lamp & Socket', 'Shared Study Hall Desk', 'High-Speed WiFi'],
+        features: ['Blackout Privacy Curtain', 'Reading Lamp & Socket', 'Shared Study Hall Desk', '+ Foods Available'],
       },
     ];
   }, [center?.stayPricePerNight]);
@@ -816,7 +817,7 @@ export default function BookSeatPage() {
                             >
                               <div className="flex items-start justify-between gap-2 mb-2">
                                 <div>
-                                  <div className="flex items-center gap-2">
+                                  <div className="flex flex-wrap items-center gap-2">
                                     <h4 className="font-bold text-sm text-slate-900">{room.title}</h4>
                                     <span
                                       className={`text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider ${
@@ -826,6 +827,10 @@ export default function BookSeatPage() {
                                       }`}
                                     >
                                       {room.tag}
+                                    </span>
+                                    <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full bg-amber-50 text-amber-800 border border-amber-200/80 shadow-xs">
+                                      <Utensils className="w-2.5 h-2.5 text-amber-600" />
+                                      + Foods Available
                                     </span>
                                   </div>
                                   <p className="text-xs text-slate-500 mt-1">{room.desc}</p>
@@ -1050,16 +1055,16 @@ export default function BookSeatPage() {
                 </div>
                 <div className="flex flex-wrap items-center gap-3 text-[9px] font-black uppercase tracking-wider text-slate-500 bg-slate-50 p-2.5 rounded-xl border border-slate-100">
                   <div className="flex items-center gap-1.5">
-                    <div className="w-3 h-3 rounded bg-white border-2 border-slate-200"></div> Available
+                    <div className="w-3.5 h-3.5 rounded-md bg-emerald-50 border-2 border-emerald-400"></div> Available
                   </div>
                   <div className="flex items-center gap-1.5">
-                    <div className="w-3 h-3 rounded bg-indigo-600 ring-2 ring-indigo-200"></div> Selected
+                    <div className="w-3.5 h-3.5 rounded-md bg-indigo-600 ring-2 ring-indigo-200"></div> Selected
                   </div>
                   <div className="flex items-center gap-1.5">
-                    <div className="w-3 h-3 rounded bg-slate-200 border border-slate-300"></div> Occupied
+                    <div className="w-3.5 h-3.5 rounded-md bg-rose-50 border-2 border-rose-300"></div> Booked
                   </div>
                   <div className="flex items-center gap-1.5">
-                    <div className="w-3 h-3 rounded bg-amber-400 ring-2 ring-amber-100"></div> Premium
+                    <div className="w-3.5 h-3.5 rounded-md bg-amber-50 border-2 border-amber-400"></div> Premium
                   </div>
                 </div>
               </div>
@@ -1087,7 +1092,7 @@ export default function BookSeatPage() {
                     {gridData.map((row, y) => (
                       <div key={y} className="flex gap-3.5 p-0.5">
                         {row.map((seat, x) => {
-                          if (!seat) return <div key={`${x}-${y}`} className="w-13 h-15 pointer-events-none opacity-0" />;
+                          if (!seat) return <div key={`${x}-${y}`} className="w-[60px] sm:w-[68px] h-[74px] sm:h-[80px] pointer-events-none opacity-0" />;
 
                           const isSelected = selectedSeatId === seat.id;
                           const isAvailable = availableSeats?.some((s) => s.id === seat.id);
@@ -1104,46 +1109,79 @@ export default function BookSeatPage() {
                                   setSeatId(seat.id);
                                 }
                               }}
+                              title={
+                                !isAvailable
+                                  ? `Seat ${seat.seatNumber} (Booked)`
+                                  : isSelected
+                                  ? `Seat ${seat.seatNumber} (Selected)`
+                                  : `Seat ${seat.seatNumber} (Available${isPremium ? ' - Premium' : ''})`
+                              }
                               className={`
-                                relative group w-13 h-15 rounded-2xl transition-all duration-300 flex flex-col items-center justify-center border-2 cursor-pointer
+                                relative group w-[60px] sm:w-[68px] h-[74px] sm:h-[80px] rounded-2xl transition-all duration-300 flex flex-col items-center justify-center p-1 border-2
                                 ${
                                   !isAvailable
-                                    ? 'bg-slate-100 border-slate-200 opacity-40 cursor-not-allowed scale-90 grayscale'
+                                    ? 'bg-rose-50/70 border-rose-300 text-rose-500 cursor-not-allowed opacity-90'
                                     : isSelected
-                                    ? 'bg-indigo-600 border-indigo-600 text-white shadow-xl shadow-indigo-300 -translate-y-1 ring-4 ring-indigo-100'
+                                    ? 'bg-indigo-600 border-indigo-600 text-white shadow-xl shadow-indigo-300 -translate-y-1 ring-4 ring-indigo-100 cursor-pointer'
                                     : isPremium
-                                    ? 'bg-white border-amber-400 text-amber-600 hover:border-amber-500 hover:shadow-lg hover:-translate-y-0.5'
-                                    : 'bg-white border-slate-200 text-slate-500 hover:border-indigo-400 hover:text-indigo-600 hover:shadow-lg hover:-translate-y-0.5'
+                                    ? 'bg-amber-50/70 border-amber-400 text-amber-700 hover:border-amber-500 hover:bg-amber-100/70 hover:shadow-md hover:-translate-y-0.5 cursor-pointer shadow-sm'
+                                    : 'bg-emerald-50/60 border-emerald-300 text-emerald-700 hover:border-emerald-500 hover:bg-emerald-100/70 hover:shadow-md hover:-translate-y-0.5 cursor-pointer shadow-sm'
                                 }
                               `}
                             >
                               {/* Selection Indicator */}
                               {isSelected && (
-                                <div className="absolute -top-1.5 -right-1.5 h-5 w-5 bg-white rounded-full flex items-center justify-center text-indigo-600 shadow-md">
+                                <div className="absolute -top-1.5 -right-1.5 h-4.5 w-4.5 bg-white rounded-full flex items-center justify-center text-indigo-600 shadow-md">
                                   <ShieldCheck className="h-3 w-3" />
                                 </div>
                               )}
 
                               {/* Premium Indicator */}
-                              {isPremium && !isSelected && (
+                              {isPremium && isAvailable && !isSelected && (
                                 <div className="absolute -top-1.5 -right-1.5 h-4 w-4 bg-amber-500 rounded-full flex items-center justify-center text-white shadow-md">
                                   <Sparkles className="h-2.5 w-2.5" />
                                 </div>
                               )}
 
                               <span
-                                className={`text-[11px] font-black mb-0.5 ${
-                                  isSelected ? 'text-white' : isPremium ? 'text-amber-700' : 'text-slate-900'
+                                className={`text-[11px] sm:text-xs font-black leading-none mb-1 ${
+                                  isSelected
+                                    ? 'text-white'
+                                    : !isAvailable
+                                    ? 'text-rose-900/90'
+                                    : isPremium
+                                    ? 'text-amber-900'
+                                    : 'text-emerald-950'
                                 }`}
                               >
                                 {seat.seatNumber}
                               </span>
 
                               <Armchair
-                                className={`h-4.5 w-4.5 transition-transform duration-300 ${
-                                  isSelected ? 'text-white scale-110' : isPremium ? 'text-amber-500' : 'text-slate-300'
+                                className={`h-4 w-4 sm:h-4.5 sm:w-4.5 mb-1 transition-transform duration-300 ${
+                                  isSelected
+                                    ? 'text-white scale-105'
+                                    : !isAvailable
+                                    ? 'text-rose-400'
+                                    : isPremium
+                                    ? 'text-amber-500'
+                                    : 'text-emerald-500'
                                 }`}
                               />
+
+                              <span
+                                className={`text-[7.5px] sm:text-[8px] font-black uppercase tracking-tight px-1.5 py-0.5 rounded leading-none ${
+                                  isSelected
+                                    ? 'bg-indigo-500/90 text-white'
+                                    : !isAvailable
+                                    ? 'bg-rose-100 text-rose-700'
+                                    : isPremium
+                                    ? 'bg-amber-100 text-amber-800'
+                                    : 'bg-emerald-100 text-emerald-800'
+                                }`}
+                              >
+                                {isSelected ? 'Selected' : !isAvailable ? 'Booked' : 'Available'}
+                              </span>
                             </button>
                           );
                         })}

@@ -32,9 +32,9 @@ export function SeatGrid({
 
  switch (seat.status) {
  case 'available':
- return 'bg-white border-2 border-violet-300 text-violet-600 hover:bg-violet-50 hover:border-violet-500 hover:shadow-lg';
+ return 'bg-emerald-50/80 border-2 border-emerald-400 text-emerald-800 hover:bg-emerald-100 hover:border-emerald-500 hover:shadow-lg';
  case 'booked':
- return 'bg-slate-200 border-2 border-slate-400 text-slate-500 cursor-not-allowed opacity-60';
+ return 'bg-rose-50/80 border-2 border-rose-300 text-rose-600 cursor-not-allowed opacity-80';
  case 'premium':
  return 'bg-amber-50 border-2 border-amber-400 text-amber-700 hover:bg-amber-100 hover:shadow-lg';
  default:
@@ -52,20 +52,20 @@ export function SeatGrid({
  <div className="space-y-6">
  <div className="flex flex-wrap gap-4 justify-center sm:justify-start">
  <div className="flex items-center gap-2">
- <div className="h-8 w-8 rounded-lg bg-white border-2 border-violet-300"></div>
- <span className="text-sm text-slate-600">Available</span>
+ <div className="h-8 w-8 rounded-lg bg-emerald-50 border-2 border-emerald-400"></div>
+ <span className="text-sm font-medium text-slate-700">Available</span>
  </div>
  <div className="flex items-center gap-2">
  <div className="h-8 w-8 rounded-lg bg-violet-600"></div>
- <span className="text-sm text-slate-600">Selected</span>
+ <span className="text-sm font-medium text-slate-700">Selected</span>
  </div>
  <div className="flex items-center gap-2">
- <div className="h-8 w-8 rounded-lg bg-slate-200 border-2 border-slate-400"></div>
- <span className="text-sm text-slate-600">Booked</span>
+ <div className="h-8 w-8 rounded-lg bg-rose-50 border-2 border-rose-300"></div>
+ <span className="text-sm font-medium text-slate-700">Booked</span>
  </div>
  <div className="flex items-center gap-2">
  <div className="h-8 w-8 rounded-lg bg-amber-50 border-2 border-amber-400"></div>
- <span className="text-sm text-slate-600">Premium</span>
+ <span className="text-sm font-medium text-slate-700">Premium</span>
  </div>
  </div>
 
@@ -83,16 +83,19 @@ export function SeatGrid({
  onMouseLeave={() => setHoveredSeat(null)}
  disabled={seat.status === 'booked'}
  className={`
- relative h-12 rounded-lg font-semibold transition-all duration-300 ease-out transform-gpu
+ relative min-h-14 py-1.5 px-1 rounded-xl font-semibold transition-all duration-300 ease-out transform-gpu flex flex-col items-center justify-center
  ${getStatusStyles(seat)}
  ${hoveredSeat === seat.id && seat.status !== 'booked' ? 'scale-105' : 'scale-100'}
  active:scale-95 focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2
  `}
  title={`Seat ${seat.number}${seat.isPremium ? ' (Premium)' : ''}`}
  >
- <span className="text-xs sm:text-sm">{seat.number}</span>
+ <span className="text-xs sm:text-sm font-black">{seat.number}</span>
+ <span className="text-[9px] block uppercase font-bold tracking-tight opacity-90 leading-tight">
+   {selectedSeats.includes(seat.id) ? 'Selected' : seat.status === 'booked' ? 'Booked' : 'Available'}
+ </span>
  {seat.isPremium && (
- <div className="absolute -top-2 -right-2 h-5 w-5 bg-amber-400 rounded-full flex items-center justify-center text-xs font-bold text-amber-900">
+ <div className="absolute -top-1.5 -right-1.5 h-4 w-4 bg-amber-400 rounded-full flex items-center justify-center text-[10px] font-bold text-amber-900 shadow-sm">
  ✨
  </div>
  )}
