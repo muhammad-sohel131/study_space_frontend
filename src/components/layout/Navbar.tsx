@@ -107,13 +107,30 @@ export function Navbar() {
           )}
         </div>
 
-        {/* Mobile Menu Button */}
-        <button
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
-          className="sm:hidden p-2 text-slate-600 hover:text-slate-900"
-        >
-          {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
-        </button>
+        {/* Mobile Actions: Cart & Menu Button */}
+        <div className="flex sm:hidden items-center gap-1">
+          <Link
+            href="/cart"
+            onClick={() => setIsMenuOpen(false)}
+            className="relative p-2 text-slate-600 hover:text-violet-600 transition-colors"
+            aria-label="Shopping Cart"
+          >
+            <ShoppingCart size={24} />
+            {totalCartItems > 0 && (
+              <span className="absolute top-0 right-0 inline-flex items-center justify-center px-1.5 py-0.5 text-[11px] font-bold leading-none text-white transform translate-x-1/4 -translate-y-1/4 bg-violet-600 rounded-full min-w-[18px] h-[18px]">
+                {totalCartItems}
+              </span>
+            )}
+          </Link>
+
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="p-2 text-slate-600 hover:text-slate-900 focus:outline-none"
+            aria-label="Toggle Menu"
+          >
+            {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Menu */}
@@ -145,6 +162,23 @@ export function Navbar() {
             }`}
           >
             Library
+          </Link>
+          <Link
+            href="/cart"
+            onClick={() => setIsMenuOpen(false)}
+            className={`flex items-center justify-between text-[16px] py-2 transition-colors border-l-2 pl-3 ${
+              isActive('/cart') ? 'text-violet-600 font-bold border-violet-600 bg-violet-50/50' : 'text-slate-600 font-medium border-transparent hover:text-violet-600'
+            }`}
+          >
+            <span className="flex items-center gap-2">
+              <ShoppingCart className="h-4 w-4" />
+              Cart
+            </span>
+            {totalCartItems > 0 && (
+              <span className="px-2 py-0.5 text-xs font-bold text-white bg-violet-600 rounded-full">
+                {totalCartItems}
+              </span>
+            )}
           </Link>
           {user ? (
             <>
